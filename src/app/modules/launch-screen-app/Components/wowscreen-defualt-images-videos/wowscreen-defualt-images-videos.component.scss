@@ -1,0 +1,186 @@
+//Table
+@import "variables";
+
+.example-container .mat-table {
+  overflow: scroll;
+  width: 100%;
+}
+
+@media only screen and (min-width: 1370px) and (max-width: 1500px) {
+  .example-container {
+    width: 88%;
+  }
+}
+
+@media only screen and (min-width: 1501px) {
+  .example-container {
+    width: fit-content;
+  }
+}
+
+table {
+  width: 100%;
+}
+
+.print {
+  position: relative;
+  top: 10px;
+  cursor: pointer;
+  right: 5px;
+}
+.example-loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.example-rate-limit-reached {
+  max-width: 360px;
+  text-align: center;
+}
+
+.mat-column-col1 {
+  border-right: 1px solid $secondary-color;
+  text-align: center;
+}
+
+.mat-column-col2 {
+  border-right: 1px solid $secondary-color;
+  text-align: center;
+}
+.mat-column-col3 {
+  border-right: 1px solid $secondary-color;
+  text-align: center;
+}
+.mat-column-col4 {
+  border-right: 1px solid $secondary-color;
+  text-align: center;
+}
+
+.app-hint {
+  background-color: #ffff00;
+  color: #000000;
+  padding: 3px;
+  font-weight: 550;
+  font-size: 12px;
+}
+
+.mat-paginator {
+  background: unset;
+}
+
+.mat-toolbar-row,
+.mat-toolbar-single-row {
+  display: flex;
+  box-sizing: border-box;
+  padding: 0 0px;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.mat-toolbar-row,
+.mat-toolbar-single-row {
+  height: 37px;
+}
+
+mat-form-field {
+  @apply w-full;
+}
+
+.table thead th {
+  vertical-align: middle;
+}
+
+.app-hint {
+  background-color: #ffff00;
+  color: #000000;
+  padding: 3px;
+  font-weight: 550;
+  font-size: 12px;
+}
+
+.mat-table {
+  max-height: 268px;
+  > .mat-header-row,
+  > .mat-row {
+    display: table-row;
+    padding: 0;
+    border: none;
+
+    > .mat-header-cell,
+    > .mat-cell {
+      display: table-cell;
+      vertical-align: middle;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    }
+  }
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #141313;
+}
+
+section:hover {
+  cursor: auto;
+
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+//make horizontal line
+hr.new2 {
+  border-top: 1px dashed;
+}
+.shadow-box {
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+//video
+.video-container {
+  position: relative;
+}
+
+.play-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 64px;
+  height: 64px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.play-button:focus {
+  outline: none;
+}

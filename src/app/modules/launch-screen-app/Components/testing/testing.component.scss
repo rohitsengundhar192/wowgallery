@@ -1,0 +1,45 @@
+.bgc {
+  background-color: #3366ff;
+}
+.mat-form-field-wrapper {
+  padding-bottom: -0.65625em;
+}
+
+@import "global";
+
+.component--dialog-box__custom-toolbar {
+  &.mat-toolbar {
+    height: 27px;
+    background-color: #3366ff;
+    padding: 0 0 0 12px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 550;
+    .example-spacer {
+      flex: 1 1 auto;
+    }
+  }
+}
+
+.dialog-container {
+  position: relative;
+  height: 100%; /* Adjust the height as per your requirements */
+}
+
+.dialog-content {
+  /* Styles for dialog content */
+  overflow: auto; /* Enable scrolling within the dialog content if needed */
+}
+
+.button-container {
+  position: absolute;
+  bottom: 10px; /* Adjust the distance from the bottom as needed */
+  right: 81px; /* Adjust the distance from the right as needed */
+}
+
+.floating-button {
+  position: fixed;
+  bottom: 64px; /* Adjust the value as per your requirement */
+  transform: translateX(-50%);
+  z-index: 9999;
+}

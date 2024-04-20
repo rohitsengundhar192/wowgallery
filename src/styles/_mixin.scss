@@ -1,0 +1,37 @@
+// src/styles/_mixin.scss
+
+@import "./variables";
+
+// * Button
+@mixin app-button(
+  $color: #3366ff,
+  $radius: 4px,
+  $text: white,
+  $line-height: 28px
+) {
+  border-radius: $radius !important;
+  background-color: $color;
+  color: $text;
+
+  font-weight: $small-font-weight;
+  font-size: $medium-font-size;
+  line-height: $line-height !important;
+  @apply px-4;
+}
+
+// * Heading
+@mixin heading(
+  $color: $large-text-color,
+  $weight: $small-font-weight,
+  $size: $medium-font-size
+) {
+  color: $color;
+  font-weight: $weight;
+  font-size: $size;
+}
+
+// * Height CALC()
+@mixin view-height($header-height: 37px, $footer-height: 20px) {
+  height: calc(100vh - $header-height - $footer-height);
+  overflow-y: auto;
+}

@@ -1,0 +1,17 @@
+// @import'../../../../styles/global';
+// @import'../../../../styles/variables';
+
+@import "global";
+@import "variables";
+.content {
+  text-align: center;
+  .line1 {
+    @include heading($secondary-color, $small-font-weight, $medium-font-size);
+  }
+  .line2 {
+    @include heading($primary-color, $small-font-weight, $medium-font-size);
+  }
+  .line3 {
+    @include heading($secondary-color, $small-font-weight, $small-font-size);
+  }
+}

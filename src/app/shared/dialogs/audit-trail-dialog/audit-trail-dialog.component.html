@@ -1,0 +1,16 @@
+<div>
+  <mat-toolbar class="component--dialog-box__custom-toolbar">
+    <span class="font-small-in-size">Audit Trail Table</span>
+    <span class="example-spacer"></span>
+    <button mat-icon-button class="flex items-center justify-center">
+      <mat-icon (click)="onNoClick()">close</mat-icon>
+    </button>
+  </mat-toolbar>
+  <!-- Content -->
+  <section
+    class="px-[10px] py-0 flex flex-col overflow-hidden"
+    mat-dialog-content
+  >
+<app-audit-trail></app-audit-trail>
+  </section>
+</div>

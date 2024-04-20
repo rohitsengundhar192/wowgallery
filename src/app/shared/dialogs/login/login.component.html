@@ -1,0 +1,22 @@
+<div class="content flex flex-col items-center justify-center h-[70vh]">
+  <div>
+    <div class="line1">Login Restricted to the users approved by</div>
+    <div class="line2">App Administrators</div>
+    <div class="line3 mt-5">
+      Face Recognition Login<span style="color: rgb(250, 0, 0)">*</span>
+    </div>
+  </div>
+  <div class="flex">
+    <img class="h-[250px] w-[250px] py-8" src="assets/images/dummy.png" />
+  </div>
+  <div>
+    <button
+      mat-raised-button
+      class="primary-button"
+      [routerLink]="['/app-name']"
+      mat-dialog-close="true"
+    >
+      Login
+    </button>
+  </div>
+</div>

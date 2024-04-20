@@ -1,0 +1,348 @@
+<div>
+  <!--Button-->
+
+  <div>
+    <button
+      type="submit"
+      class="primary-button xs:text-[12px]"
+      mat-raised-button
+      (click)="enablewowscreen()"
+      [disabled]="setlimitbtnenable "
+    >
+      <!-- <span> Block Display in WOW Screen </span> -->
+
+      <span *ngIf="btnenable !== 0 && btnenable !== 1">
+        Block Display in WOW Screen
+      </span>
+      <span *ngIf="btnenable === 0"> Enable Display in WOW Screen </span>
+      <span *ngIf="btnenable === 1"> Block Display in WOW Screen </span>
+    </button>
+  </div>
+  <!--text-->
+  <div class="text-justify">
+    <div>
+      <span class="secondary-heading"
+        >You can block a maximum of 10 default Images / Videos that you do not
+        want to be displayed on the GETster Screen.</span
+      >
+    </div>
+
+    <div>
+      <span class="red-heading"
+        >The following GETster Screen Default Images / Videos are uploaded by
+        the team at GETster.TECH</span
+      >
+    </div>
+  </div>
+  <div class="mb-4">
+    <!-- table starts here -->
+    <div class="mt-4">
+      <div class="mat-elevation-z8 example-container w-full gt-sm:w-fit">
+        <div id="pdfTable">
+          <table
+            *ngIf="dataSource"
+            id="excel_table"
+            mat-table
+            [dataSource]="dataSource"
+            class="component--mat-table__custom-table checklist-table table-bordered table-sm block"
+          >
+            <ng-container matColumnDef="col1">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                style="
+                  word-wrap: break-word;
+                  min-width: 63px;
+                  max-width: 230px;
+                  padding-right: 8px;
+                  padding-left: 8px;
+                  text-align: center;
+                  vertical-align: middle;
+                "
+                class="whitespace-nowrap"
+              >
+                Default Image / <br />
+                Video ID
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let element"
+                style="text-align: left; padding-left: 2mm"
+              >
+                <div class="flex gap-2 items-center">
+                  <div>
+                    <!-- radio btn -->
+
+                    <mat-radio-button
+                      class=""
+                      (click)="disabled(element)"
+                    ></mat-radio-button>
+                  </div>
+                  <div>
+                    <!--cont-->
+                    <span class="para-bold">{{
+                      element.getster_screen_image_video_id
+                    }}</span>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="col2">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                style="
+                  word-wrap: break-word;
+                  min-width: 87px;
+                  max-width: 210px;
+                  padding-right: 8px;
+                  padding-left: 8px;
+                  text-align: center;
+                  vertical-align: middle;
+                "
+                class="whitespace-nowrap"
+              >
+                Default Image / <br />
+                Video
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let element"
+                style="text-align: left; padding-left: 2mm"
+              >
+                <!-- height: 39px;
+              width: 77px;
+              margin-left: 6px;
+              margin-top: 2px;
+              margin-bottom: 2px; -->
+                <img
+                  class="shadow-box"
+                  style="
+                    max-height: 70px;
+                    max-width: 100px;
+                    margin-left: 0px;
+                    margin-top: 3px;
+                    margin-bottom: 2px;
+                    margin-right: 10px;
+                  "
+                  *ngIf="!element?.name?.endsWith('.mp4')"
+                  [src]="element.images"
+                />
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="col3">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                style="
+                  word-wrap: break-word;
+                  min-width: 128px;
+                  max-width: 200px;
+                  padding-right: 8px;
+                  padding-left: 8px;
+                  text-align: center;
+                  vertical-align: middle;
+                "
+                class="whitespace-nowrap"
+              >
+                Is Time Bound, <br />
+                (Display From - To)
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let element"
+                style="text-align: left; padding-left: 2mm; padding-right: 2mm"
+              >
+                <div *ngIf="element.is_time_bound == 0">
+                  <span class="red-heading">No</span>
+                </div>
+                <div *ngIf="element.is_time_bound == 1">
+                  <span class="para-bold">Yes</span> <br />
+                  ({{
+                    element.display_from_datetime | convertFrom24To12Format
+                  }}- <br />
+                  {{ element.display_upto_datetime | convertFrom24To12Format }})
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="col4">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                style="
+                  word-wrap: break-word;
+                  min-width: 61px;
+                  max-width: 200px;
+                  padding-right: 8px;
+                  padding-left: 8px;
+                  text-align: center;
+                  vertical-align: middle;
+                "
+                class="whitespace-nowrap"
+              >
+                GETster Screen <br />
+                Display Status
+              </th>
+
+              <td
+                mat-cell
+                *matCellDef="let element"
+                style="text-align: left; padding-left: 2mm"
+              >
+                <!-- {{element.taggedusercount | json}} -->
+
+                <div *ngIf="element.taggedusercount != null">
+                  <span class="red-heading">Blocked</span>
+                </div>
+                <div *ngIf="element.taggedusercount == null">
+                  <span class="para-bold">Enabled</span>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr
+              mat-header-row
+              *matHeaderRowDef="displayedColumns; sticky: true"
+            ></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">No data available</td>
+            </tr>
+          </table>
+        </div>
+
+        <div>
+          <mat-paginator
+            class="component--mat-pagination__size"
+            #paginator
+            #paginatorElement
+            [length]="dataSource.data.length"
+            [pageIndex]="0"
+            [pageSizeOptions]="[5, 10, 20]"
+            [pageSize]="5"
+            [allValue]="paginator.length"
+            appAddAllToPaginator
+            (page)="pageChanged($event)"
+          >
+          </mat-paginator>
+        </div>
+
+        <div class="flex bg-white-black">
+          <div class="custom-mat-floating-label">
+            <mat-form-field
+              appearance="outline"
+              class="component--mat-form-field__custom-input pl-2"
+            >
+              <mat-label>Filter</mat-label>
+              <!-- <input
+                matInput
+                (keyup)="applyFilter(input.value)"
+                #input
+                placeholder="Records shown in page"
+              /> -->
+              <!-- <input
+              matInput
+              (keyup)="applyFilter(input.value)"
+              #input
+              placeholder="Records shown in page"
+            /> -->
+              <input
+                [disabled]="
+                  dataSource.data.length === 0 ||
+                  !(pageSize !== 5 && pageSize !== 10 && pageSize !== 20)
+                "
+                matInput
+                (keyup)="applyFilter(input.value)"
+                #input
+              />
+            </mat-form-field>
+          </div>
+          <div class="w-full flex justify-end">
+            <span class="p-5 export-btn" [matMenuTriggerFor]="menu"
+              >Export</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="downloadAsPDF()">
+        <mat-icon>picture_as_pdf</mat-icon>
+        <span>Print / Export PDF</span>
+      </button>
+      <button
+        mat-menu-item
+        (click)="exportReport('Your Educational Institution Syllabus.xlsx')"
+      >
+        <mat-icon>grid_on</mat-icon>
+        <span>Export SpreadSheet</span>
+      </button>
+      <button
+        mat-menu-item
+        (click)="exportReport('Your Educational Institution Syllabus.csv')"
+      >
+        <mat-icon>grid_on</mat-icon>
+        <span>Export csv File</span>
+      </button>
+      <button
+        mat-menu-item
+        (click)="exportReport('Your Educational Institution Syllabus.json')"
+      >
+        <mat-icon>grid_on</mat-icon>
+        <span>Export json</span>
+      </button>
+    </mat-menu>
+  </div>
+
+  <!--single Line-->
+  <div class="mt-11">
+    <hr class="new4 secondary-color" />
+  </div>
+
+  <!--text-->
+  <div *ngIf="showdefault">
+    <div class="mb-[10px]">
+      <label class="primary-heading"
+        >Preview of Default Image / Video ID:
+        <span class="red-heading">{{ gallery_cloud_file_id }}</span>
+      </label>
+    </div>
+
+    <!--image-->
+    <div
+      *ngFor="let item of pushtable; let i = index"
+      style="display: flex; justify-content: center"
+    >
+      <!-- {{image|json}} -->
+      <div *ngIf="item.file_name.endsWith('.mp4') == false; else vdo">
+        <img
+          [src]="item.images"
+          [alt]="item.alt"
+          class="h-[225px] w-[354px] border-solid border-2 border-black shadow-box"
+        />
+      </div>
+      <ng-template #vdo>
+        <div class="video-container">
+          <video
+            #myVideo
+            class="h-[225px] w-[354px] border-solid border-2 border-black"
+          >
+            <source [src]="item.images" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          <button
+            *ngIf="showPlayButton"
+            class="play-button"
+            (click)="playVideo()"
+          >
+            <i class="material-icons">play_arrow</i>
+          </button>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

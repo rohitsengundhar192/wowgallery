@@ -1,0 +1,23 @@
+<div>
+  <mat-toolbar class="component--dialog-box__custom-toolbar">
+    <span class="font-small-in-size">Alert !</span>
+    <span class="example-spacer"></span>
+    <button mat-icon-button class="flex items-center justify-center">
+      <mat-icon (click)="onNoClick()">close</mat-icon>
+    </button>
+  </mat-toolbar>
+  <!-- Content -->
+  <section class="px-[10px] py-0 flex flex-col overflow-hidden">
+    <div class="flex flex-wrap justify-center py-3">
+      <mat-icon>error</mat-icon>
+      <div class="warn-heading-medium">
+        No internet connection. Data will not be saved!
+      </div>
+    </div>
+    <div>
+      <button class="primary-button" mat-raised-button mat-dialog-close>
+        Close
+      </button>
+    </div>
+  </section>
+</div>

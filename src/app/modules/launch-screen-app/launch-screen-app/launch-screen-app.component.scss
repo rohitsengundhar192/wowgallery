@@ -1,0 +1,58 @@
+@import "global";
+.secondary-header-burger-menu {
+    @apply cursor-pointer;
+    color: $primary-color;
+  }
+
+  .secondary-header-menu-title {
+    font-size: $medium-font-size;
+
+    padding: 0px 40px 0px 45px;
+    @apply overflow-hidden text-ellipsis text-center w-full gt-sm:text-[#{$large-font-size}];
+    color: $large-heading-font-color;
+  }
+
+  .mat-icon-button {
+    padding: 0;
+    min-width: 0;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    line-height: 40px;
+    border-radius: 50%;
+  }
+
+  .custom-menu {
+    background-color: white;
+    width: 35px;
+    height: 25px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px 1px rgb(0 0 0 / 30%),
+      1px 2px 3px 1px rgb(0 0 0 / 25%), 1px 1px 5px 1px rgb(2 1 2 / 20%);
+  }
+  .audit-trail {
+    font-size: $medium-font-size;
+
+    color: $large-heading-font-color;
+    @apply text-[12px] cursor-pointer lt-lg:hidden gt-sm:text-[#{$large-font-size}];
+  }
+
+  .audit-trail-menu {
+    font-size: $medium-font-size;
+    @apply text-[12px] cursor-pointer;
+  }
+
+  .close-icon {
+    color: $large-heading-font-color;
+    font-size: $large-font-size;
+    @apply h-full px-1 cursor-pointer flex;
+  }
+
+  .translate-icon {
+    @apply lt-lg:hidden gt-sm:text-[#{$large-font-size}];
+  }
+
+  .mobile-view {
+    color: $large-heading-font-color;
+    @apply gt-md:hidden lt-lg:flex w-7 h-full cursor-pointer;
+  }

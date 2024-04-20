@@ -1,0 +1,266 @@
+  <!--Table-->
+  <div class="mb-4">
+    <!-- table starts here -->
+    <div class="mt-4">
+      <div class="mat-elevation-z8 example-container w-full gt-sm:w-fit">
+        <div id="pdfTable">
+          <table
+            *ngIf="dataSource"
+            id="excel_table"
+            mat-table
+            [dataSource]="dataSource"
+            class="component--mat-table__custom-table checklist-table table-bordered table-sm block"
+          >
+            <ng-container matColumnDef="col1">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                style="
+                  word-wrap: break-word;
+                  min-width: 54px;
+                  max-width: 230px;
+                  padding-right: 8px;
+                  padding-left: 8px;
+                  text-align: center;
+                  vertical-align: middle;
+                "
+                class="whitespace-nowrap"
+              >
+                Art / Image <br />
+                Thumbnail
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let element; let i = index"
+                style="text-align: left; padding-left: 2mm"
+              >
+                <div class="flex gap-2 items-center">
+                  <div>
+                    <!-- radio btn -->
+
+                    <mat-radio-button
+                      class=""
+
+                    ></mat-radio-button>
+                  </div>
+                  <div>
+                    <span class="para-bold">{{
+                    element.getster_screen_image_video_id
+                    }}</span>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="col2">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                style="
+                  word-wrap: break-word;
+                  min-width: 75px;
+                  max-width: 120px;
+                  padding-right: 8px;
+                  padding-left: 8px;
+                  text-align: center;
+                  vertical-align: middle;
+                "
+                class="whitespace-nowrap"
+              >
+                Description
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let element"
+                style="text-align: left; padding-left: 2mm"
+              >
+                <div class="text-justify tab-desc">
+                  <span class="para-bold">{{
+                    element.gallery_file_description
+                  }}</span>
+                </div>
+              </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="col5">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                style="
+                  word-wrap: break-word;
+                  min-width: 73px;
+                  max-width: 100px;
+                  padding-right: 8px;
+                  padding-left: 8px;
+                  text-align: center;
+                  vertical-align: middle;
+                "
+                class="whitespace-nowrap"
+              >
+                No of <br />
+                Tagged Users
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let element"
+                style="text-align: left; padding-left: 2mm"
+              >
+              <!-- <div *ngIf="element.info[0]?.taggedusercount?.blocked_wow_screen_image_video_id > 0">
+                <span class="red-heading">Blocked</span>
+              </div>
+              <div *ngIf="element.info[0]?.taggedusercount?.blocked_wow_screen_image_video_id == undefined">
+                <span class="para-bold">Enabled</span>
+              </div> -->
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="col6">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                style="
+                  word-wrap: break-word;
+                  min-width: 70px;
+                  max-width: 190px;
+                  padding-right: 8px;
+                  padding-left: 8px;
+                  text-align: center;
+                  vertical-align: middle;
+                "
+                class="whitespace-nowrap"
+              >
+                GETster Screen <br />
+                Display Status
+              </th>
+
+              <td
+                mat-cell
+                *matCellDef="let element"
+                style="text-align: left; padding-left: 2mm"
+              >
+                <div
+                  *ngIf="
+                    element.is_enabled_for_app_and_getster_screen_display ==
+                      0 &&
+                    !(
+                      element?.file_name?.endsWith('.mp4') ||
+                      element?.file_name?.endsWith('.avi') ||
+                      element?.file_name?.endsWith('.mkv') ||
+                      element?.file_name?.endsWith('.mov') ||
+                      element?.file_name?.endsWith('.wmv') ||
+                      element?.file_name?.endsWith('.flv') ||
+                      element?.file_name?.endsWith('.mpeg') ||
+                      element?.file_name?.endsWith('.webm') ||
+                      element?.file_name?.endsWith('.3gp') ||
+                      element?.file_name?.endsWith('.3g2')
+                    )
+                  "
+                >
+                  <span class="para-bold">Disabled</span>
+                </div>
+                <div
+                  *ngIf="
+                    element.is_enabled_for_app_and_getster_screen_display == 1
+                  "
+                >
+                  <span class="para-bold">Enabled</span>
+                </div>
+                <div
+                  *ngIf="
+                    element?.file_name?.endsWith('.mp4') ||
+                    element?.file_name?.endsWith('.avi') ||
+                    element?.file_name?.endsWith('.mkv') ||
+                    element?.file_name?.endsWith('.mov') ||
+                    element?.file_name?.endsWith('.wmv') ||
+                    element?.file_name?.endsWith('.flv') ||
+                    element?.file_name?.endsWith('.mpeg') ||
+                    element?.file_name?.endsWith('.webm') ||
+                    element?.file_name?.endsWith('.3gp') ||
+                    element?.file_name?.endsWith('.3g2')
+                  "
+                >
+                  <span class="para-bold">Not Eligible</span>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr
+              mat-header-row
+              *matHeaderRowDef="displayedColumns; sticky: true"
+            ></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="6">No data available</td>
+            </tr>
+          </table>
+        </div>
+
+        <div>
+          <mat-paginator
+            class="component--mat-pagination__size"
+            #paginator
+            #paginatorElement
+            [length]="dataSource.data.length"
+            [pageIndex]="0"
+            [pageSizeOptions]="[5, 10, 20]"
+            [pageSize]="5"
+            [allValue]="paginator.length"
+            appAddAllToPaginator
+            (page)="pageChanged($event)"
+          >
+          </mat-paginator>
+        </div>
+
+        <div class="flex bg-white-black">
+          <div class="custom-mat-floating-label">
+            <mat-form-field
+              appearance="outline"
+              class="component--mat-form-field__custom-input pl-2"
+            >
+              <mat-label>Filter</mat-label>
+              <input
+                matInput
+                (keyup)="applyFilter($event)"
+                #input
+                placeholder="Records shown in page"
+              />
+            </mat-form-field>
+          </div>
+          <div class="w-full flex justify-end">
+            <span class="p-5 export-btn" [matMenuTriggerFor]="menu"
+              >Export</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="downloadAsPDF()">
+        <mat-icon>picture_as_pdf</mat-icon>
+        <span>Print / Export PDF</span>
+      </button>
+      <button
+        mat-menu-item
+        (click)="exportReport('Your Educational Institution Syllabus.xlsx')"
+      >
+        <mat-icon>grid_on</mat-icon>
+        <span>Export SpreadSheet</span>
+      </button>
+      <button
+        mat-menu-item
+        (click)="exportReport('Your Educational Institution Syllabus.csv')"
+      >
+        <mat-icon>grid_on</mat-icon>
+        <span>Export csv File</span>
+      </button>
+      <button
+        mat-menu-item
+        (click)="exportReport('Your Educational Institution Syllabus.json')"
+      >
+        <mat-icon>grid_on</mat-icon>
+        <span>Export json</span>
+      </button>
+    </mat-menu>
+  </div>

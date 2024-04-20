@@ -1,0 +1,205 @@
+<mat-toolbar class="component--dialog-box__custom-toolbar">
+  <span class="font-small-in-size">WOW Camp Images Video</span>
+  <span class="example-spacer"></span>
+  <button mat-icon-button class="flex items-center justify-center">
+    <mat-icon (click)="onNoClick()">close</mat-icon>
+  </button>
+</mat-toolbar>
+<div class="p-2 overflow-auto">
+  <!--Button-->
+
+  <div>
+    <button
+      type="submit"
+      class="primary-button xs:text-[12px]"
+      mat-raised-button
+    >
+      SAVE
+    </button>
+  </div>
+  <!--single line-->
+  <div>
+    <span class="primary-heading">Edit WOW Camp Image / Video</span>
+  </div>
+  <div class="text-justify">
+    <span class="red-heading">These images/videos are uploaded directly from WOW Camp Volunteer App. </span>
+  </div>
+  <!--Image view-->
+  <div class="w-full">
+    <img
+      src="../../../../../assets/icons/image 6.png"
+      class="w-full h-[230px]"
+    />
+  </div>
+
+  <!--simple text-->
+  <div class="">
+    <span class="primary-heading">Description:</span>
+  </div>
+  <!--Input field-->
+
+  <div class="w-full">
+    <mat-form-field
+      appearance="outline"
+      class="w-full xs:w-full component--mat-form-field__custom-input component--mat-country_input__custom-style normal-text-heading"
+    >
+      <input
+        matInput
+        placeholder="Ex. Pizza"
+        value="This Photo was taken during camp visit."
+      />
+    </mat-form-field>
+  </div>
+
+  <div class="w-full flex gap-4 xs:flex-col">
+    <div>
+      <!--Academic year word-->
+      <div>
+        <span class="para-bold">Academic Year:</span>
+      </div>
+      <!--Select box-->
+      <div class="w-full">
+        <mat-form-field
+          appearance="outline"
+          class="w-full xs:w-full component--mat-form-field__custom-input component--mat-country_input__custom-style normal-text-heading "
+        >
+          <!-- <mat-label class="primary-heading">2022-23</mat-label> -->
+          <mat-select placeholder="2022-23">
+            <mat-option *ngFor="let food of foods" [value]="food.value">
+              {{ food.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <!--list word-->
+      <div>
+        <span class="primary-heading">List of Tagged Users:</span>
+      </div>
+      <!--select list-->
+      <div>
+        <div class="_container">
+          <div class="content">
+            <div class="">
+              <div
+                class="content-body"
+                fxLayoutGap="5px"
+                fxLayout="column"
+                [formGroup]="firstFormGroup"
+              >
+                <div class="contact-area">
+                  <div class="search">
+                    <div class="pt-2">
+                      <mat-form-field
+                        appearance="outline"
+                        class="w-full component--mat-form-field__custom-input"
+                      >
+                        <mat-label>Search User </mat-label>
+                        <input
+                          matInput
+                          placeholder=""
+                          [autocomplete]="'off'"
+                          [(ngModel)]="searchText"
+                          [ngModelOptions]="{ standalone: true }"
+                        />
+                        <mat-icon matSuffix class="text-primary"
+                          >search</mat-icon
+                        >
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="contact-list">
+                    <!-- |filter:searchContact -->
+                    <!-- use this above -->
+                    <ng-container
+                      *ngFor="let item of contact_list | filter : searchText"
+                    >
+                      <div
+                        style="margin: 5px 5px 5px 0px"
+                        class="profile cursor-pointer flex"
+                        fxLayout="row wrap"
+                        fxLayoutAlign="start center"
+                        (click)="
+                          checkbox.checked = !checkbox.checked;
+                          addUserToGroup(item)
+                        "
+                      >
+                        <img
+                          src="../../../../../assets/icons/profile_icon.png"
+                          class="h-[35px] w-[35px] mt-[5px]"
+                          alt=""
+                        />
+                        <!-- <img [src]="item.image" alt="" /> -->
+                        <div class="space-y-2">
+                          <div>
+                            <span class="primary-heading"
+                              >{{ item.firstName }}
+                            </span>
+                            <span class="primary-heading">{{
+                              item.LastName
+                            }}</span>
+                          </div>
+                          <div class="secondary-heading">
+                            {{ item.category }}
+                          </div>
+                        </div>
+
+                        <span style="flex: 1 1 auto"></span>
+                        <mat-checkbox
+                          #checkbox
+                          class="mr-[10px] mt-[10px]"
+                          (click)="$event.preventDefault()"
+                          (click)="check_add_user(item)"
+                        ></mat-checkbox>
+                        <!-- <mat-icon class="remove-icon" (click)="addUserToGroup(i)">add_circle</mat-icon> -->
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Another-->
+    <div>
+      <div>
+        <span class="para-bold">Uploaded By:</span>
+      </div>
+      <!--select user details-->
+      <div
+        class="w-full flex gap-2 items-center border-solid border-2 border-black"
+        style="border-radius: 30px"
+      >
+        <div>
+          <img
+            src="../../../../../assets/icons/userimage.png"
+            class="h-[27px] w-[27px] ml-[10px]"
+            style="border-radius: 10px"
+          />
+        </div>
+        <div class="grid">
+          <div>
+            <span class="primary-heading">Shymlal Singh</span>
+          </div>
+          <div>
+            <span class="normal-heading">Teaching Faculty / Class 1</span>
+          </div>
+        </div>
+      </div>
+      <!--uploaded date time-->
+      <div class="w-[250px] xs:w-[95%]">
+        <div>
+          <span class="para-bold">Upload Date Time:</span>
+        </div>
+        <div
+          class="w-full flex gap-2 items-center border-solid border-2 border-black p-2"
+          style="border-radius: 30px"
+        >
+          <span class="normal-heading">03:00 PM, 25 Mar 2022</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+// Dialog box toolbar
+.component--dialog-box__custom-toolbar {
+  &.mat-toolbar {
+    height: 27px;
+    background-color: #3366ff;
+    // border-radius: 4px;
+    padding: 0 0 0 12px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 550;
+
+    .example-spacer {
+      flex: 1 1 auto;
+    }
+  }
+}

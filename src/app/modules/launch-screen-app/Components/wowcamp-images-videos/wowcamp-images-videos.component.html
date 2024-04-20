@@ -1,0 +1,770 @@
+<div class="p-1 space-y-2">
+  <!--Button And Icons-->
+  <div class="flex gap-2 xs:grid">
+    <!--Button phase 1-->
+    <div class="flex gap-2 items-center xs:justify-center">
+      <!--Document+download image-->
+      <!-- <div>
+        <img
+          src="../../../../../assets/icons/file (1).png"
+          class="h-[20px] w-[22px] mt-[1px]"
+          (click)="openDialog()"
+          style="cursor: pointer"
+        />
+      </div> -->
+      <!--Download icon-->
+      <div>
+        <div class="flex space-x-2">
+          <div>
+            <mat-icon
+              class="primary-heading-text icon-display mt-[4px]"
+              style="cursor: pointer"
+              (click)="getfile()"
+              [ngClass]="{ disabled: btndisablecreate }"
+              matTooltip="Download"
+            >
+              save_alt
+              <button class="border" [disabled]="btndisablecreate"></button>
+            </mat-icon>
+          </div>
+        </div>
+      </div>
+      <!--Edit Icon-->
+      <div>
+        <mat-icon
+          class="primary-heading-text icon-display mt-[4px]"
+          (click)="edit()"
+          style="cursor: pointer"
+          [ngClass]="{ disabled: btndisablecreate }"
+          [ngStyle]="{ color: iconColor }"
+          matTooltip="Edit"
+        >
+          edit
+          <button class="border" [disabled]="btndisablecreate"></button>
+        </mat-icon>
+      </div>
+      <!--Delete icon-->
+      <div>
+        <mat-icon
+          class="red-heading-text icon-display mt-[4px]"
+          style="cursor: pointer"
+          (click)="delete()"
+          [ngClass]="{ disabled: btndisablecreate }"
+          (click)="makenull()"
+          matTooltip="Delete"
+        >
+          delete
+          <button class="border" [disabled]="btndisablecreate"></button>
+        </mat-icon>
+      </div>
+    </div>
+
+    <!--Button Phase 2-->
+    <div class="flex gap-2 items-center xs:justify-center">
+      <!--button - 1-->
+      <div>
+        <button
+          type="submit"
+          class="primary-button xs:text-[12px]"
+          mat-raised-button
+          (click)="enablewowscreen()"
+          [disabled]="enablewowscreens || setlimitbtnenable"
+        >
+          <span
+            *ngIf="
+              is_enabled_for_app_and_getster_screen_display !== 0 &&
+              is_enabled_for_app_and_getster_screen_display !== 1
+            "
+          >
+            Enable Display Of Photo
+          </span>
+          <span *ngIf="is_enabled_for_app_and_getster_screen_display === 0">
+            Enable Display Of Photo
+          </span>
+          <span *ngIf="is_enabled_for_app_and_getster_screen_display === 1">
+            Disable Display Of Photo
+          </span>
+        </button>
+      </div>
+      <!--Button - 2-->
+      <div>
+        <!-- <button
+          type="submit"
+          class="primary-button xs:text-[12px]"
+          mat-raised-button
+          [disabled]="disabletrimvideobtn"
+          (click)="trimvideodialogueopen()"
+        >
+          TRIM Video
+        </button> -->
+        <span class="primary-heading">
+          on GETster Screen / App Home Screen.</span
+        >
+      </div>
+    </div>
+  </div>
+  <!--Simple Red text-->
+  <div class="text-justify">
+    <span class="secondary-heading"
+      >You can enable a maximum of 25 WOW Camp Images / Videos for Display on
+      GETster Screen
+    </span>
+    <br />
+    <span class="red-heading"
+      >The following images/videos are uploaded directly from WOW Camp Volunteer
+      App.
+    </span>
+  </div>
+  <!--Table-->
+  <div class="mb-4">
+    <!-- table starts here -->
+    <div class="mt-4">
+      <div class="mat-elevation-z8 example-container w-full gt-sm:w-fit">
+        <div id="pdfTable">
+          <table
+            *ngIf="dataSource"
+            id="excel_table"
+            mat-table
+            [dataSource]="dataSource"
+            class="component--mat-table__custom-table checklist-table table-bordered table-sm block"
+          >
+            <ng-container matColumnDef="col1">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                style="
+                  word-wrap: break-word;
+                  min-width: 54px;
+                  max-width: 230px;
+                  padding-right: 8px;
+                  padding-left: 8px;
+                  text-align: center;
+                  vertical-align: middle;
+                "
+                class="whitespace-nowrap"
+              >
+                Art / Image <br />
+                Thumbnail
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let element; let i = index"
+                style="text-align: left; padding-left: 2mm"
+              >
+                <div class="flex gap-2 items-center">
+                  <div>
+                    <!-- radio btn -->
+
+                    <!-- <mat-radio-button
+                    class=""
+                    (click)="disabled(element)"
+                    (click)="selectedOption = 'radio'"
+                    (click)="showEnlarged(element, i, 'radio')"
+                  ></mat-radio-button> -->
+                    <mat-radio-group [(ngModel)]="file_id">
+                      <!-- Add the mat-radio-group -->
+                      <mat-radio-button
+                        class=""
+                        [value]="element.gallery_file_upload_id"
+                        (click)="disabled(element)"
+                        (click)="selectedOption = 'radio'"
+                        (click)="showEnlarged(element, i, 'radio')"
+                        (click)="check(element)"
+                      ></mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+                  <div>
+                    <img
+                      class="shadow-box"
+                      style="
+                        max-height: 70px;
+                        max-width: 100px;
+                        margin-left: 0px;
+                        margin-top: 3px;
+                        margin-bottom: 2px;
+                        margin-right: 10px;
+                      "
+                      *ngIf="
+                        !(
+                          element?.file_name?.endsWith('.mp4') ||
+                          element?.file_name?.endsWith('.avi') ||
+                          element?.file_name?.endsWith('.mkv') ||
+                          element?.file_name?.endsWith('.mov') ||
+                          element?.file_name?.endsWith('.wmv') ||
+                          element?.file_name?.endsWith('.flv') ||
+                          element?.file_name?.endsWith('.mpeg') ||
+                          element?.file_name?.endsWith('.webm') ||
+                          element?.file_name?.endsWith('.3gp') ||
+                          element?.file_name?.endsWith('.3g2')
+                        )
+                      "
+                      [src]="element.images"
+                    />
+
+                    <div
+                      class="video-container ml-[-9px] p-[2px]"
+                      *ngIf="isVideoFile(element?.file_name)"
+                    >
+                      <video
+                        *ngIf="
+                          element?.file_name?.endsWith('.mp4') ||
+                          element?.file_name?.endsWith('.avi') ||
+                          element?.file_name?.endsWith('.mkv') ||
+                          element?.file_name?.endsWith('.mov') ||
+                          element?.file_name?.endsWith('.wmv') ||
+                          element?.file_name?.endsWith('.flv') ||
+                          element?.file_name?.endsWith('.mpeg') ||
+                          element?.file_name?.endsWith('.webm') ||
+                          element?.file_name?.endsWith('.3gp') ||
+                          element?.file_name?.endsWith('.3g2')
+                        "
+                        style="
+                          max-height: 70px;
+                          max-width: 100px;
+                          margin-left: 6px;
+                          margin-top: 3px;
+                          margin-bottom: 2px;
+                          margin-right: 10px;
+                        "
+                        muted
+                      >
+                        <source [src]="element.images" type="video/mp4" />
+                      </video>
+                      <div class="play-icon" style="cursor: pointer"></div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="col2">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                style="
+                  word-wrap: break-word;
+                  min-width: 75px;
+                  max-width: 210px;
+                  padding-right: 8px;
+                  padding-left: 8px;
+                  text-align: center;
+                  vertical-align: middle;
+                "
+                class="whitespace-nowrap"
+              >
+                Description
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let element"
+                style="text-align: left; padding-left: 2mm"
+              >
+                <div class="text-justify tab-desc">
+                  <span class="para-bold" style="word-wrap: break-word">{{
+                    element.gallery_file_description
+                  }}</span>
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="col5">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                style="
+                  word-wrap: break-word;
+                  min-width: 74px;
+                  max-width: 100px;
+                  padding-right: 8px;
+                  padding-left: 8px;
+                  text-align: center;
+                  vertical-align: middle;
+                "
+                class="whitespace-nowrap"
+              >
+                No of <br />
+                Tagged Users
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let element"
+                style="text-align: left; padding-left: 2mm"
+              >
+                <span class="para-bold">{{
+                  element.taggedusercount.count
+                }}</span>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="col6">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                style="
+                  word-wrap: break-word;
+                  min-width: 70px;
+                  max-width: 190px;
+                  padding-right: 8px;
+                  padding-left: 8px;
+                  text-align: center;
+                  vertical-align: middle;
+                "
+                class="whitespace-nowrap"
+              >
+                GETster Screen <br />
+                Display Status
+              </th>
+
+              <td
+                mat-cell
+                *matCellDef="let element"
+                style="text-align: left; padding-left: 2mm"
+              >
+                <div
+                  *ngIf="
+                    element.is_enabled_for_app_and_getster_screen_display ==
+                      0 &&
+                    !(
+                      element?.file_name?.endsWith('.mp4') ||
+                      element?.file_name?.endsWith('.avi') ||
+                      element?.file_name?.endsWith('.mkv') ||
+                      element?.file_name?.endsWith('.mov') ||
+                      element?.file_name?.endsWith('.wmv') ||
+                      element?.file_name?.endsWith('.flv') ||
+                      element?.file_name?.endsWith('.mpeg') ||
+                      element?.file_name?.endsWith('.webm') ||
+                      element?.file_name?.endsWith('.3gp') ||
+                      element?.file_name?.endsWith('.3g2')
+                    )
+                  "
+                >
+                  <span class="para-bold">Disabled</span>
+                </div>
+                <div
+                  *ngIf="
+                    element.is_enabled_for_app_and_getster_screen_display == 1
+                  "
+                >
+                  <span class="para-bold">Enabled</span>
+                </div>
+                <div
+                  *ngIf="
+                    element?.file_name?.endsWith('.mp4') ||
+                    element?.file_name?.endsWith('.avi') ||
+                    element?.file_name?.endsWith('.mkv') ||
+                    element?.file_name?.endsWith('.mov') ||
+                    element?.file_name?.endsWith('.wmv') ||
+                    element?.file_name?.endsWith('.flv') ||
+                    element?.file_name?.endsWith('.mpeg') ||
+                    element?.file_name?.endsWith('.webm') ||
+                    element?.file_name?.endsWith('.3gp') ||
+                    element?.file_name?.endsWith('.3g2')
+                  "
+                >
+                  <span class="red-heading">Not Eligible</span>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr
+              mat-header-row
+              *matHeaderRowDef="displayedColumns; sticky: true"
+            ></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="6">No data available</td>
+            </tr>
+          </table>
+        </div>
+
+        <div>
+          <mat-paginator
+            class="component--mat-pagination__size"
+            #paginator
+            #paginatorElement
+            [length]="dataSource.data.length"
+            [pageIndex]="0"
+            [pageSizeOptions]="[5, 10, 20]"
+            [pageSize]="5"
+            [allValue]="paginator.length"
+            appAddAllToPaginator
+            (page)="pageChanged($event)"
+          >
+          </mat-paginator>
+        </div>
+
+        <div class="flex bg-white-black">
+          <div class="custom-mat-floating-label">
+            <mat-form-field
+              appearance="outline"
+              class="component--mat-form-field__custom-input pl-2"
+            >
+              <mat-label>Filter</mat-label>
+              <!-- <input
+                matInput
+                (keyup)="applyFilter($event)"
+                #input
+                placeholder="Records shown in page"
+              /> -->
+              <input
+              [disabled]="
+                dataSource.data.length === 0 ||
+                !(pageSize !== 5 && pageSize !== 10 && pageSize !== 20)
+              "
+              matInput
+              (keyup)="applyFilter($event)"
+              #input
+            />
+            </mat-form-field>
+          </div>
+          <div class="w-full flex justify-end">
+            <span class="p-5 export-btn" [matMenuTriggerFor]="menu"
+              >Export</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="downloadAsPDF()">
+        <mat-icon>picture_as_pdf</mat-icon>
+        <span>Print / Export PDF</span>
+      </button>
+      <button
+        mat-menu-item
+        (click)="exportReport('Your Educational Institution Syllabus.xlsx')"
+      >
+        <mat-icon>grid_on</mat-icon>
+        <span>Export SpreadSheet</span>
+      </button>
+      <button
+        mat-menu-item
+        (click)="exportReport('Your Educational Institution Syllabus.csv')"
+      >
+        <mat-icon>grid_on</mat-icon>
+        <span>Export csv File</span>
+      </button>
+      <button
+        mat-menu-item
+        (click)="exportReport('Your Educational Institution Syllabus.json')"
+      >
+        <mat-icon>grid_on</mat-icon>
+        <span>Export json</span>
+      </button>
+    </mat-menu>
+  </div>
+  <!--Table Ends here-->
+
+  <!--single Line-->
+  <div class="mt-11">
+    <hr class="new4 secondary-color" />
+  </div>
+
+  <!--make single line-->
+  <div class="text-justify">
+    <label class="primary-heading"
+      >Preview of Cloud_file_id:
+      <span class="red-heading">{{ image_name }}</span>
+    </label>
+  </div>
+  <!--Images-->
+
+  <div class="w-full items-center">
+    <!--Image With Slider-->
+    <div>
+      <section class="product">
+        <!--update-->
+        <div class="container-fluid">
+          <div
+            class="w-full"
+            style="position: relative; overflow: hidden; height: 130px"
+          >
+            <div
+              class="w-[91%] ml-[83px] xs:w-[76%] xs:ml-[55px] md:w-[84%] space-y-10"
+              style="position: absolute; max-height: 70px"
+            >
+              <div
+                class="item w-full flex items-center"
+                *ngFor="let item of imagedata; let i = index"
+              >
+                <div class="w-full flex items-center justify-center">
+                  <img
+                    img
+                    class="shadow-box"
+                    *ngIf="!isVideoFile(item?.file_name)"
+                    [src]="item.images"
+                    style="cursor: pointer; max-height: 70px; max-width: 100px"
+                    (click)="showEnlarged(item, i, 'image')"
+                    (click)="selectedOption = 'image'"
+                    (click)="check(item)"
+                    [ngClass]="{
+                      'red-border': selectedimage === item.file_name
+                    }"
+                  />
+                </div>
+
+                <div
+                  class="video-container w-full flex items-center justify-center"
+                  *ngIf="isVideoFile(item?.file_name)"
+                >
+                  <video
+                    muted
+                    style="cursor: pointer; max-height: 70px; max-width: 100px"
+                    (click)="showEnlarged(item, i, 'image')"
+                    (click)="selectedOption = 'image'"
+                    (click)="check(item)"
+                    [ngClass]="{
+                      'red-border': selectedimage === item.file_name
+                    }"
+                  >
+                    <source [src]="item.images" type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                  <div
+                    class="play-icon"
+                    style="cursor: pointer"
+                    (click)="showEnlarged(item, i, 'image')"
+                    (click)="selectedOption = 'image'"
+                    (click)="check(item)"
+                  ></div>
+                </div>
+
+                <div class="para-bold text-[10px] mt-[5px] ml-[12px]">
+                  {{ item.date | convertFrom24To12Format }}
+                </div>
+              </div>
+            </div>
+
+            <!--Button-->
+            <div class="button-area">
+              <img
+                src="../../../../../assets/icons/right-arrow.png"
+                alt=""
+                class="prev"
+                style="cursor: pointer"
+                prevdirective
+              />
+              <img
+                src="../../../../../assets/icons/left arrow.png"
+                alt=""
+                class="next"
+                style="cursor: pointer"
+                appNext
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!--Selected Images-->
+    <br /><br />
+    <div
+      class="w-full justify-center"
+      style="display: inline-block; position: relative; margin-top: 10px"
+      *ngIf="showimage"
+    >
+      <div
+        *ngFor="let image of enlargedImages; let i = index"
+        style="display: flex; justify-content: center"
+      >
+        <!-- {{image|json}} -->
+        <div
+          *ngIf="
+            !(
+              image?.file_name?.endsWith('.mp4') ||
+              image?.file_name?.endsWith('.avi') ||
+              image?.file_name?.endsWith('.mkv') ||
+              image?.file_name?.endsWith('.mov') ||
+              image?.file_name?.endsWith('.wmv') ||
+              image?.file_name?.endsWith('.flv') ||
+              image?.file_name?.endsWith('.mpeg') ||
+              image?.file_name?.endsWith('.webm') ||
+              image?.file_name?.endsWith('.3gp') ||
+              image?.file_name?.endsWith('.3g2')
+            );
+            else vdo
+          "
+        >
+          <img
+            [src]="image.images"
+            [alt]="image.alt"
+            style="max-width: 98%; max-height: 250px"
+          />
+        </div>
+
+        <ng-template #vdo>
+          <video class="h-[225px] w-[354px]" autoplay controls>
+            <source [src]="image.images" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="radioButtonClicked">
+  <!--Description-->
+  <!--simple text-->
+  <div></div>
+  <div class="">
+    <span class="primary-heading">Description:</span>
+  </div>
+  <!--Input field-->
+
+  <div class="w-full">
+    <mat-form-field appearance="outline" class="">
+      <textarea
+        matInput
+        style="font-size: 12px; font-weight: 600; color: black"
+        [(ngModel)]="gallery_file_description"
+        [formControl]="myFormControl"
+        readonly
+        rows="2"
+      ></textarea>
+    </mat-form-field>
+  </div>
+
+  <!--mat-select user-->
+  <div class="mt-[-18px]">
+    <span class="primary-heading">List of Tagged Users:</span>
+  </div>
+
+  <div class="w-full flex gap-14 xs:flex-col">
+    <!--Mat-select-->
+    <div class="w-[300px] xs:w-full">
+      <div style="margin-top: 14px; height: 44px" class="panel relative">
+        <input
+          type="text"
+          placeholder="search by user name"
+          [(ngModel)]="searchWords"
+          class="px-3 pr-6 h-[30px] flex-1 outline-none bg-transparent"
+          style="
+            border-width: 4px;
+            border-radius: 19px;
+            border-color: rgb(0 0 0 / 42%);
+            width: 87%;
+          "
+        />
+        <!-- <img
+        src="../../../../../assets/icons/search-icon 11.png"
+        alt=""
+        class="absolute top-3 right-6"
+      /> -->
+      </div>
+      <mat-card class="overflow-auto hei" *ngIf="radioButtonClicked">
+        <mat-option
+          *ngFor="
+            let item of !searchWords ? studentDatas : searchWord;
+            index as i;
+            odd as oddValue
+          "
+          [value]="item"
+          (onSelectionChange)="radioButton(item, $event)"
+          style="height: 60px; padding: 1%"
+        >
+          <mat-list>
+            <mat-list-item *ngIf="showData">
+              <div
+                matListItemTitle
+                class="text-xs mat-select-value-text"
+                style="
+                  white-space: break-spaces;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  word-break: normal;
+                  padding-left: 0.3rem;
+                  margin-left: -4px;
+                "
+              >
+                <div class="grid">
+                  <div
+                    class="flex gap-1"
+                    (click)="user_profile(item)"
+                    (click)="openUserProfile()"
+                  >
+                    <span class="primary-heading whitespace-nowrap">
+                      {{ item.reply.first_name | titlecase }}
+                    </span>
+                    <span class="primary-heading whitespace-nowrap">
+                      {{ item.reply.last_name | titlecase }}
+                    </span>
+                  </div>
+                  <span class="text-xs text-black whitespace-nowrap">
+                    {{ item.reply.category_aut | titlecase }}</span
+                  >
+                </div>
+              </div>
+            </mat-list-item>
+          </mat-list>
+        </mat-option>
+      </mat-card>
+    </div>
+    <!--another-->
+    <mat-card class="hee xs:mt-[-42px] gt-xs:mt-[13px]">
+      <mat-card-content>
+        <div class="flex-col xs:mt-[-44px]">
+          <!--Select Desciption-->
+          <div class="w-[263px] xs:w-[99%]">
+            <div>
+              <span class="para-bold">Uploaded By:</span>
+            </div>
+
+            <div>
+              <!--select user details-->
+              <div
+                class="w-full flex gap-2 items-center border-solid border-2 border-black"
+                style="border-radius: 30px"
+              >
+                <div
+                  class="grid ml-[15px]"
+                  style="cursor: pointer"
+                  *ngIf="showData"
+                >
+                  <div>
+                    <span
+                      class="primary-heading"
+                      (click)="user_profile_cu(customer_image)"
+                      (click)="openUserProfilecus()"
+                      >{{ login_first_name }} {{ login_last_name }}</span
+                    >
+                  </div>
+                  <div>
+                    <span class="normal-heading">{{ login_category }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--uploaded date time-->
+            <div class="w-[250px] xs:w-[96%]">
+              <div>
+                <span class="para-bold">Upload Date Time:</span>
+              </div>
+              <div
+                class="w-full flex gap-2 items-center border-solid border-2 border-black p-2"
+                style="border-radius: 30px; height: 14px"
+              >
+                <div *ngIf="showData">
+                  <span
+                    class="normal-heading"
+                    *ngIf="selectedOption === 'radio'"
+                    >{{
+                      gallery_file_upload_datetime | convertFrom24To12Format
+                    }}</span
+                  >
+                  <span
+                    class="normal-heading"
+                    *ngIf="selectedOption === 'image'"
+                    >{{ up_date | convertFrom24To12Format }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<!-- <input type="file" > -->

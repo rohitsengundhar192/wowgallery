@@ -1,0 +1,173 @@
+<div class="base-container">
+  <div class="secondary-header-toolbar">
+    <mat-toolbar id="mat-toolbar">
+      <div
+        class="secondary-header-burger-menu component--mat-sidenav__burger-icon absolute z-20"
+      >
+        <button
+          mat-icon-button
+          (click)="sidenav.toggle()"
+          class="absolute top-0"
+        >
+          <mat-icon class="custom-menu">menu</mat-icon>
+        </button>
+      </div>
+
+      <div class="secondary-header-menu-title">
+        <span>{{ menuName }}</span>
+      </div>
+
+      <div class="flex justify-end items-center absolute left-0 right-[4px]">
+        <div class="mobile-view" [matMenuTriggerFor]="more_menu">
+          <mat-icon class="back-icon">more_vert</mat-icon>
+        </div>
+
+        <div class="flex flex-row lt-md:mr-1 translate-icon">
+          <!-- <div *ngIf="!showTranslate">
+            <form [formGroup]="firstFormGroup">
+              <select
+                name="languageCtrl"
+                formControlName="languageControl"
+                (change)="onlanguagechange()"
+                translate="no"
+              >
+                <option value="">Select Language</option>
+                <option
+                  translate="no"
+                  *ngFor="let lang of googleLanguage"
+                  [value]="lang.value"
+                >
+                  {{ lang.label }}
+                </option>
+              </select>
+            </form>
+          </div> -->
+
+          <!-- <span (click)="showbtn()">
+            <ng-container *ngIf="showTranslate; else translateClose">
+              <img src="assets/icons/translate.png" class="h-8 w-8" alt="" />
+            </ng-container>
+            <ng-template #translateClose>
+              <div mat-icon-button class="close-icon">
+                <mat-icon>close</mat-icon>
+              </div>
+            </ng-template>
+          </span> -->
+        </div>
+
+        <div class="audit-trail mt-2">
+          <button
+            [disabled]="audit_trail_btn_state"
+            mat-button
+            [ngStyle]="{
+              padding: '0 8px',
+              'text-decoration-line': 'underline'
+            }"
+            (click)="openAuditTrail()"
+          >
+            Audit Trail
+          </button>
+        </div>
+      </div>
+    </mat-toolbar>
+
+    <mat-sidenav-container class="h-[calc(100vh_-_37px)] overflow-hidden">
+      <mat-sidenav
+        class="component--mat-sidenav__list-contents"
+        disableClose="true"
+        [mode]="mobileQuery.matches ? 'over' : 'side'"
+        [opened]="mobileQuery.matches ? false : true"
+        #sidenav
+      >
+        <mat-nav-list *ngFor="let i of menu">
+          <a
+            routerLink="{{ i.link }}"
+            mat-list-item
+            (click)="getName(i.label); sideOnclickClose()"
+            routerLinkActive="active"
+            >{{ i.label }}</a
+          >
+        </mat-nav-list>
+      </mat-sidenav>
+      <mat-sidenav-content>
+        <div class="p-2">
+          <router-outlet></router-outlet>
+        </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
+</div>
+
+<!-- * secondary header options in mobile view -->
+<!-- <mat-menu
+  #more_menu="matMenu"
+  style="height: fit-content"
+  [overlapTrigger]="false"
+>
+  <button
+    mat-menu-item
+    (click)="openAuditTrail()"
+    [disabled]="audit_trail_btn_state"
+    [ngStyle]="{ 'text-align': 'center' }"
+  >
+    <span class="audit-trail-menu">
+      <img
+        src="assets/icons/audit_trail.png"
+        class="h-11 w-11 relative left-[-40px] right-0 bottom-0 top-[3px]"
+        alt="audit_trail"
+      />
+
+      <label class="absolute left-0 right-[-40px] top-0 bottom-0">
+        Audit Trail
+      </label>
+    </span>
+  </button>
+  <mat-divider></mat-divider>
+  <div mat-menu-item (click)="stopClose($event)">
+    <form [formGroup]="firstFormGroup">
+      <select
+        name="languageCtrl"
+        formControlName="languageControl"
+        (change)="onlanguagechange()"
+        translate="no"
+      >
+        <option value="">Select Language</option>
+        <option
+          translate="no"
+          *ngFor="let lang of googleLanguage"
+          [value]="lang.value"
+        >
+          {{ lang.label }}
+        </option>
+      </select>
+    </form>
+  </div>
+  <mat-divider></mat-divider>
+</mat-menu> -->
+
+<mat-menu #more_menu="matMenu" style="height: fit-content" [overlapTrigger]="false">
+  <button mat-menu-item (click)="openAuditTrail()" [disabled]="audit_trail_btn_state"
+      [ngStyle]="{ 'text-align': 'center' }">
+      <!-- <mat-icon>new_releases </mat-icon> -->
+      <span class="audit-trail-menu">
+          <img src="assets/icons/audit_trail.png" class="h-11 w-11 relative right-[35px] bottom-0 top-[3px]"
+              alt="audit_trail" />
+
+          <label class="absolute left-0 right-[-25px] top-0 bottom-0">
+              Audit Trail
+          </label>
+      </span>
+  </button>
+  <!-- <mat-divider></mat-divider>
+  <div mat-menu-item (click)="stopClose($event)">
+      <form [formGroup]="firstFormGroup">
+          <select name="languageCtrl" formControlName="languageControl" (change)="onlanguagechange()" translate="no">
+              <option value="">Select Language</option>
+              <option translate="no" *ngFor="let lang of googleLanguage" [value]="lang.value">
+                  {{ lang.label }}
+              </option>
+          </select>
+      </form>
+  </div>
+  <mat-divider></mat-divider> -->
+</mat-menu>

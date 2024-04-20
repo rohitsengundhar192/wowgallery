@@ -1,0 +1,391 @@
+<mat-toolbar class="component--dialog-box__custom-toolbar">
+  <span class="font-small-in-size ml-[-5px]"
+    >Add New Institutional Art / Images
+  </span>
+  <span class="example-spacer"></span>
+  <button mat-icon-button class="flex items-center justify-center">
+    <mat-icon (click)="onNoClick()">close</mat-icon>
+  </button>
+</mat-toolbar>
+
+<div class="dialog-container">
+  <div class="dialog-content">
+    <!-- Dialog content goes here -->
+
+    <div class="p-2 overflow-auto">
+      <form [formGroup]="firstFormGroup">
+        <!--Button-->
+        <div class="space-y-2">
+          <div class="w-full flex gap-2 items-center">
+            <div>
+              <span class="primary-heading">Institutional Art / Images</span>
+            </div>
+            <!--upload image-->
+
+            <div class="image-container">
+              <img
+                src="../../../../../assets/icons/upload image.png"
+                alt="Image"
+                style="cursor: pointer"
+                class="h-[25px] w-[25px] shadow-box"
+
+              />
+              <input
+                type="file"
+                (change)="browseVideo($event)"
+                (change)="onFileSelected($event)"
+                #videoUpload
+                accept="image/*, video/*"
+                style="cursor: pointer;"
+              />
+            </div>
+
+            <div>
+              <span class="primary-heading">Upload</span>
+            </div>
+
+            <div class="mt-[-7px]">
+              <span class="red-heading">*</span>
+            </div>
+          </div>
+          <!--Image view-->
+
+          <div class="w-full">
+            <div
+              *ngIf="lastImageUrl && !notallowed"
+              class="w-full flex justify-center items-center"
+            >
+              <img
+                [src]="lastImageUrl"
+                alt="Uploaded image"
+                class="shadow-box"
+                style="max-width: 98%; max-height: 250px"
+              />
+            </div>
+
+            <div *ngIf="lastVideoUrl && !notallowed">
+              <video
+                [src]="lastVideoUrl"
+                autoplay
+                controls
+                loop
+                class="w-full h-[230px]"
+              ></video>
+            </div>
+
+            <div class="w-full flex justify-center">
+              <div class="py-2 flex justify-center" *ngIf="notallowed">
+                <div
+                  class="h-[375px] w-[263px] gt-xs:h-[327px] gt-xs:w-[500px] flex flex-col items-center justify-center border-dashed border-4 border-secondary bg-gray-200"
+                >
+                  <ng-container>
+                    <div
+                      class="h-[300px] w-[500px] flex flex-col items-center justify-center cursor-pointer"
+                    >
+                      <div class="w-20 h-20">
+                        <mat-icon
+                          class="material-icons-outlined text-[80px] text-gray-300"
+                          style="height: 100%; width: 100%"
+                        >
+                          upload_file
+                        </mat-icon>
+                      </div>
+                      <div class="text-gray-300 text-2xl select-none font-bold">
+                        Upload File
+                      </div>
+                    </div>
+                  </ng-container>
+
+                  <ng-container *ngIf="isVideoLoaded">
+                    <div class="text-gray-300 text-2xl select-none font-bold">
+                      Loading...
+                    </div>
+                  </ng-container>
+
+                  <ng-container>
+                    <div class="text-center">
+                      <div class="text-red-700 text-2xl select-none font-bold">
+                        Uploaded File Size is maximum of 50mb is allowed.
+                      </div>
+                      <div class="text-secondary select-none font-medium">
+                        Please Compress the video as shown in the guidelines
+                        below and then upload again.
+                      </div>
+                      <div
+                        class="text-primary text-2xl font-bold cursor-pointer underline my-2"
+                        (click)="getsizecomvideo()"
+                      >
+                        Guidelines on how to Compress and Reduce video file
+                        size?
+                      </div>
+
+                      <!-- <div class="text-primary font-medium p-2 cursor-pointer">
+                        Click here to Try Uploading Again
+                      </div> -->
+                    </div>
+
+                    <!-- <video
+                      preload="metadata"
+                      autoplay="false"
+                      controls
+                      loop="true"
+                      autoplay="true"
+                      src="https://images.getbiz.app/getster/toutorial.mp4"
+                      width="640"
+                      height="300"
+                      style="width: 100%"
+                    ></video> -->
+                  </ng-container>
+                </div>
+                <input
+                  type="file"
+                  class="hidden"
+                  (change)="browseVideo($event)"
+                  #videoUpload
+                  accept="video/mp4,video/x-m4v,video/*"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--simple text-->
+        <div class="w-full flex items-center gap-1">
+          <div class="mt-[-1px] mb-[6px]">
+            <span class="primary-heading">Description:</span>
+          </div>
+          <div class="mt-[-7px]">
+            <span class="red-heading">*</span>
+          </div>
+        </div>
+        <!--Input field-->
+
+        <div class="w-[94%] gt-xs:w-[96%] mb-[10px]">
+          <textarea
+            class="w-full xs:w-full component--mat-form-field__custom-input component--mat-country_input__custom-style normal-text-heading"
+            placeholder="Type Here...."
+            (input)="onGetValue($event)"
+            formControlName="input"
+          ></textarea>
+        </div>
+
+        <div class="w-full flex gap-4 xs:flex-col">
+          <div>
+            <!--list word-->
+            <div class="w-full flex items-center gap-1">
+
+              <div class="ml-[3px]">
+                <span class="primary-heading">List of Tagged Users:</span>
+              </div>
+              <div class="mt-[-7px]">
+                <span class="red-heading">*</span>
+              </div>
+            </div>
+            <!--select list-->
+            <div>
+              <div class="_container ml-[-8px]">
+                <div class="content">
+                  <div class="">
+                    <div
+                      class="content-body"
+                      fxLayoutGap="5px"
+                      fxLayout="column"
+                    >
+                      <div class="contact-area">
+                        <div class="search">
+                          <div class="pt-2">
+                            <mat-form-field
+                              appearance="outline"
+                              class="w-full component--mat-form-field__custom-input"
+                            >
+                              <mat-label>Search User </mat-label>
+                              <input
+                                matInput
+                                placeholder=""
+                                [autocomplete]="'off'"
+                                [(ngModel)]="searchWords"
+                                [ngModelOptions]="{ standalone: true }"
+                              />
+                              <mat-icon matSuffix class="text-primary"
+                                >search</mat-icon
+                              >
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <div class="contact-list">
+                          <!-- |filter:searchContact -->
+                          <!-- use this above -->
+                          <div
+                            class="flex gap-2 items-center justify-end mr-[15px]"
+                          >
+                            <div>
+                              <span class="para-bold">Select All Users</span>
+                            </div>
+
+                            <div>
+                              <mat-checkbox
+                                (change)="
+                                  $event ? masterToggle() : null;
+                                  changedata($event)
+                                "
+                                [checked]="
+                                  selection.hasValue() && isAllSelected()
+                                "
+                                [indeterminate]="
+                                  selection.hasValue() && !isAllSelected()
+                                "
+                              >
+                              </mat-checkbox>
+                            </div>
+                          </div>
+                          <ng-container
+                            *ngFor="
+                              let item of !searchWords
+                                ? contact_list
+                                : searchWord;
+                              let i = index
+                            "
+                          >
+                            <!-- let item of !searchWords ? studentDatas : searchWord; -->
+                            <div
+                              style="margin: 5px 5px 5px 0px"
+                              class="profile cursor-pointer flex gap-[6px]"
+                              fxLayout="row wrap"
+                              fxLayoutAlign="start center"
+                            >
+                              <!-- <img
+                            [src]="
+                              getCustomerProfileUrl(item.reply.customer_image)
+                            "
+                            class="h-[35px] w-[35px] mt-[5px]"
+                            alt=""
+                          /> -->
+
+                              <!-- <img [src]="item.image" alt="" /> -->
+                              <div class="ml-[5px]">
+                                <div>
+                                  <span class="primary-heading"
+                                    >{{ item.reply?.first_name }}
+                                  </span>
+                                  <span class="primary-heading">{{
+                                    item.reply?.last_name
+                                  }}</span>
+                                </div>
+                                <div class="secondary-heading mt-[2px]">
+                                  {{ item.reply?.category_aut }}
+                                </div>
+                              </div>
+
+                              <span style="flex: 1 1 auto"></span>
+                              <mat-checkbox
+                                class="mr-[10px] mt-[10px]"
+                                (click)="$event.stopPropagation()"
+                                (change)="
+                                  selection.toggle(item); changedata($event)
+                                "
+                                [checked]="selection.isSelected(item)"
+                              >
+                              </mat-checkbox>
+                            </div>
+                          </ng-container>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--Another-->
+          <div>
+            <div>
+              <span class="para-bold">Uploaded By:</span>
+            </div>
+            <!--select user details-->
+            <div
+              class="w-full flex gap-2 items-center border-solid border-2 border-black"
+              style="border-radius: 30px"
+            >
+              <!-- <div>
+            <img
+              [src]="getCustomerProfileUrl(customer_image)"
+              (click)="user_profile_cu(customer_image)"
+              (click)="openUserProfilecus()"
+              class="h-[27px] w-[27px] ml-[10px] mt-[5px]"
+              style="border-radius: 10px"
+            />
+          </div> -->
+              <!-- <div>
+                <ng-container *ngIf="customer_image">
+                  <img
+                    [src]="getCustomerProfileUrl(customer_image)"
+                    (click)="user_profile_cu(customer_image)"
+                    (click)="openUserProfilecus()"
+                    class="h-[27px] w-[27px] ml-[10px] mt-[5px]"
+                    style="border-radius: 10px;cursor: pointer;"
+                    (error)="handleImageError()"
+                  />
+                </ng-container>
+                <ng-container *ngIf="!customer_image">
+                  <img
+                    src="../../../../../assets/images/profile pic 9.png"
+                    alt="Fallback Image"
+                    (click)="user_profile_cu(customer_image)"
+                    (click)="openUserProfilecus()"
+                    class="h-[27px] w-[27px] ml-[10px]"
+                    style="border-radius: 10px"
+                  />
+                </ng-container>
+              </div> -->
+              <div class="grid ml-[10px]">
+                <div style="cursor: pointer">
+                  <span
+                    class="primary-heading"
+                    (click)="user_profile_cu(customer_image)"
+                    (click)="openUserProfilecus()"
+                    >{{ login_first_name }} {{ login_last_name }}</span
+                  >
+                </div>
+                <div>
+                  <span class="normal-heading">{{ login_category }}</span>
+                </div>
+              </div>
+            </div>
+            <!--uploaded date time-->
+            <div class="w-[250px] xs:w-[95%]">
+              <div>
+                <span class="para-bold">Upload Date Time:</span>
+              </div>
+              <div
+                class="w-full gt-xs:w-[94%] flex gap-2 items-center border-solid border-2 border-black p-2"
+                style="border-radius: 30px"
+              >
+                <span class="normal-heading">{{
+                  uploadtime | convertFrom24To12Format
+                }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="button-container">
+    <button
+      type="submit"
+      class="primary-button xs:text-[12px] floating-button"
+      mat-raised-button
+      (click)="onUploadFileCephStorage()"
+      (click)="disableButton()"
+      [disabled]="
+        firstFormGroup.invalid ||
+        disablesavebtn ||
+        disablefileuploadimage ||
+        isButtonDisabled
+      "
+    >
+      SAVE
+    </button>
+  </div>
+</div>

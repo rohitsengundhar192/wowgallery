@@ -1,0 +1,191 @@
+<div class="base-container header-toolbar">
+  <mat-toolbar
+    id="mat-toolbar"
+    [ngClass]="getclass()"
+    [ngStyle]="{ background: isOnline ? '#3366ff' : '#212121' }"
+  >
+    <!-- * Navigation Back Icon -->
+    <div
+      class="navigation"
+      *ngIf="showNavigation"
+    >
+      <mat-icon class="back-icon" (click)="navigation.back()"
+        >arrow_back_ios_new</mat-icon
+      >
+    </div>
+    <!-- * App Logo -->
+    <div class="app-logo" [matMenuTriggerFor]="aboutMenu">
+      <img
+        class="header-logo-image logo-shadow"
+        src="assets/icons/getbiz_logo.png"
+        alt="app-logo"
+      />
+    </div>
+    <!-- * Application Name -->
+    <div class="app-name">
+      <span *ngIf="isOnline">{{ appTitle }}</span>
+      <marquee
+        class="drop-shadow-md text-xl"
+        *ngIf="!isOnline"
+        direction="left"
+        scrollamount="4"
+        style="color: red"
+      >
+        {{ offlineText }}
+      </marquee>
+    </div>
+
+    <span class="spacer"></span>
+
+    <!-- * Notification Icon -->
+    <div class="notification-icon component--mat-icon__bell-icon">
+      <!-- <mat-icon>notifications_none</mat-icon> -->
+      <mat-icon
+        matBadge="5"
+        matBadgeColor="warn"
+        matBadgeSize="small"
+        routerLinkActive="router-link-active"
+        >notifications</mat-icon
+      >
+    </div>
+    <!-- * Share Icon -->
+    <div class="share-icon">
+      <mat-icon (click)="onShare()">share</mat-icon>
+    </div>
+
+    <!-- * Theme Switch -->
+    <!-- <div class="theme-icon">
+      <button mat-icon-button (click)="toggleDarkTheme()">
+        <mat-icon *ngIf="isDark">light_mode</mat-icon>
+        <mat-icon *ngIf="!isDark">dark_mode</mat-icon>
+      </button>
+    </div> -->
+
+    <!-- * Download app - Icon -->
+    <div class="download-icon" mat-icon-button>
+      Download Web App
+      <div class="w-[35px] h-full flex hv-center">
+        <mat-icon (click)="installPromotion()">file_download</mat-icon>
+      </div>
+    </div>
+    <!-- * Translate -->
+    <!-- <div
+      class="w-[125px] sm:w-auto md:w-auto lg:w-[90px] gt-lg:w-[90px] h-full google-translate"
+    ></div> -->
+
+    <!-- * User Profile -->
+    <div class="user-profile" [matMenuTriggerFor]="accountMenu">
+      <img
+        class="profile-image profile-shadow"
+        src="assets/icons/profile_icon.png"
+        alt="user-image"
+      />
+    </div>
+
+    <!-- Mobile View -->
+    <div class="mobile-view" [matMenuTriggerFor]="menu">
+      <mat-icon class="back-icon">more_vert</mat-icon>
+    </div>
+  </mat-toolbar>
+  <div *ngIf="loaderService.isLoading | async" class="loader-container">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+</div>
+
+<!-- Menus -->
+<!-- * About  -->
+<mat-menu #aboutMenu="matMenu">
+  <button mat-menu-item [routerLink]="['/app-store']">
+    <mat-icon>home</mat-icon>
+    <span>Home</span>
+  </button>
+
+  <button mat-menu-item [routerLink]="['/launch-app/about-app']">
+    <mat-icon>info</mat-icon>
+    <span>About this App, Comments and Suggestions </span>
+  </button>
+
+  <button mat-menu-item>
+    <mat-icon>contact_mail</mat-icon>
+    <span>Contact</span>
+  </button>
+
+  <button mat-menu-item>
+    <mat-icon>chat</mat-icon>
+    <span>Chat</span>
+  </button>
+
+  <button mat-menu-item>
+    <mat-icon>lock_outline</mat-icon>
+    <span>Scan QR Code For Secure LOGIN</span>
+  </button>
+</mat-menu>
+
+<!-- * Profile -->
+<mat-menu #accountMenu="matMenu">
+  <button mat-menu-item>
+    <mat-icon>settings</mat-icon>
+    <span>Profile</span>
+  </button>
+
+  <button mat-menu-item (click)="logOut()">
+    <mat-icon>exit_to_app</mat-icon>
+    <span>Sign Out</span>
+  </button>
+</mat-menu>
+
+<!-- * Profile Mobile view -->
+<mat-menu #menu="matMenu" style="height: fit-content" [overlapTrigger]="false">
+  <button mat-menu-item>
+    <mat-icon>account_circle</mat-icon>
+    <span>Profile</span>
+  </button>
+  <mat-divider></mat-divider>
+
+  <button mat-menu-item [routerLink]="['/approve-dialog']">
+    <mat-icon matBadge="15" matBadgeColor="warn" matBadgeSize="small"
+      >notifications_none
+    </mat-icon>
+    <span>Notification</span>
+  </button>
+  <mat-divider></mat-divider>
+
+  <button
+    mat-menu-item
+    (click)="openAuditTrail()"
+    [disabled]="!(audit_trail$ | async)"
+  >
+    <mat-icon>new_releases </mat-icon>
+    <span>Audit Trail</span>
+  </button>
+  <mat-divider></mat-divider>
+
+  <button mat-menu-item (click)="onShare()">
+    <mat-icon>share</mat-icon>
+    <span>Share</span>
+  </button>
+  <mat-divider></mat-divider>
+
+  <button mat-menu-item (click)="installPromotion()">
+    <mat-icon>file_download</mat-icon>
+    <span>Download</span>
+  </button>
+  <mat-divider></mat-divider>
+
+  <!-- <button mat-menu-item (click)="toggleDarkTheme()">
+    <button mat-icon-button *ngIf="isDark">
+      <mat-icon>light_mode</mat-icon>
+      <span>Light mode</span>
+    </button>
+    <button mat-icon-button *ngIf="!isDark">
+      <mat-icon>dark_mode</mat-icon>
+      <span>Dark mode</span>
+    </button>
+  </button> -->
+  <mat-divider></mat-divider>
+
+  <button mat-menu-item>
+    <mat-icon>exit_to_app</mat-icon>
+    <span>Logout</span>
+  </button>
+</mat-menu>

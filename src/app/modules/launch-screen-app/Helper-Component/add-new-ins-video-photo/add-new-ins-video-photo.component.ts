@@ -1,0 +1,439 @@
+import {
+  Component,
+  ElementRef,
+  Inject,
+  OnInit,
+  Optional,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogConfig,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { Subject } from 'rxjs';
+import { UserProfileCardComponent } from 'src/app/shared/dialogs/user-profile-card/user-profile-card.component';
+import { ApiService } from 'src/app/shared/services/api/api.service';
+import { JwtauthserviceService } from 'src/app/shared/services/api/jwtauthservice.service';
+import { CephService } from 'src/app/shared/services/ceph/ceph.service';
+import { CustomSpinnerService } from 'src/app/shared/services/custom-spinner/custom-spinner.service';
+import { DataSharingService } from 'src/app/shared/services/data-sharing/data-sharing.service';
+import { SnackBarService } from 'src/app/shared/services/snackbar/snackbar.service';
+import { environment } from 'src/environments/environment';
+import { GetlargeImageComponent } from '../getlarge-image/getlarge-image.component';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatCheckbox } from '@angular/material/checkbox';
+
+interface Food {
+  value: string;
+  viewValue: string;
+}
+
+@Component({
+  selector: 'app-add-new-ins-video-photo',
+  templateUrl: './add-new-ins-video-photo.component.html',
+  styleUrls: ['./add-new-ins-video-photo.component.scss'],
+})
+export class AddNewInsVideoPhotoComponent implements OnInit {
+  //* --------------------------  Start  -----------------------------------*//
+  firstFormGroup = this._formBuilder.group({
+    input: ['', Validators.required],
+  });
+
+  get categoryforms() {
+    return this.firstFormGroup.get('categoryforms');
+  }
+
+  @ViewChild('videoPlayer') videoPlayer!: ElementRef<HTMLVideoElement>;
+  @ViewChild('canvas') canvas!: ElementRef<HTMLCanvasElement>;
+  //* -----------------------  Decorated Methods  --------------------------*//
+  foods: Food[] = [
+    { value: 'steak-0', viewValue: '2022-23' },
+    { value: 'pizza-1', viewValue: '2023-24' },
+    { value: 'tacos-2', viewValue: '2024-25' },
+  ];
+  //* -----------------------  Variable Declaration  -----------------------*//
+  searchContact: any;
+  contact_list: any;
+  searchText!: string;
+  volunteerID: any;
+  listofUserId: string[] = [];
+  loginuserdetails: any;
+  country_code: any;
+  customer_id: any;
+  user_id: any;
+  private submitSubject = new Subject<any>();
+  //* ---------------------------  Constructor  ----------------------------*//
+  constructor(
+    public loginDialogRef: MatDialogRef<AddNewInsVideoPhotoComponent>,
+    private _snackbar: SnackBarService,
+    private api_service: ApiService,
+    private _formBuilder: FormBuilder,
+    private _dataShare: DataSharingService,
+    private _apiservice: ApiService,
+    private loader: CustomSpinnerService,
+    private _cephService: CephService,
+    private _snackBarService: SnackBarService,
+    private authService: JwtauthserviceService,
+    private dialog: MatDialog,
+    private renderer: Renderer2,
+
+    public MatDialogRef: MatDialogRef<AddNewInsVideoPhotoComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any
+  ) {}
+
+  //* -------------------------  Lifecycle Hooks  --------------------------*//
+
+  async ngOnInit(): Promise<void> {
+    // this.customer_id = 1
+    let one: any = localStorage.getItem('access_token');
+    let token: any = this.authService.decodeJwtToken(one);
+    this.country_code = token.user.country_code;
+    this.customer_id = token.user.customer_id;
+    this.user_id = token.user.user_id;
+
+    this.bucketName = `${this.country_code}-${this.customer_id}`;
+    this.getstudent();
+    this.getloginuserdetails();
+    this.getuploadeddatettime();
+  }
+
+  //* ----------------------------  APIs Methods  --------------------------*//
+
+  //popup select user category
+  getstudent() {
+    this._apiservice
+      .getalluserscheckbox(this.country_code, this.customer_id, this.user_id)
+      .subscribe((res) => {
+        this.contact_list = res?.data;
+      });
+  }
+  //login user details
+  login_first_name: any;
+  login_last_name: any;
+  login_category: any;
+  customer_image: any;
+  getloginuserdetails() {
+    this._apiservice
+      .getloginuserdetails(this.country_code, this.customer_id, this.user_id)
+      .subscribe((res) => {
+        this.loginuserdetails = res.data[0].reply;
+        this.login_first_name = this.loginuserdetails.first_name;
+        this.login_last_name = this.loginuserdetails.last_name;
+        this.login_category = this.loginuserdetails.category_aut;
+        this.customer_image = this.loginuserdetails.customer_image;
+      });
+  }
+  handleImageError() {
+    this.customer_image = null; // Set customer_image to null or assign another fallback value
+  }
+  user_pro_image_cus: any;
+  user_profile_cu(e: any) {
+    const fileName = e.split('.')[0]; // Split the string by '.' and take the first part
+    const number = parseInt(fileName); // Parse the resulting string to an integer
+    this.user_pro_image_cus = number;
+  }
+  isButtonDisabled = false;
+
+  disableButton() {
+    this.isButtonDisabled = true;
+  }
+  imageuser_id: any;
+
+  openUserProfilecus() {
+    let config: MatDialogConfig = {
+      disableClose: true,
+      minWidth: 'auto',
+      minHeight: 'auto',
+      width: '320px',
+
+      data: {
+        user_id: this.user_id,
+        customer_id: this.customer_id,
+        country_id: this.country_code,
+      },
+    };
+    const dialogRef = this.dialog.open(UserProfileCardComponent, config);
+  }
+
+  //get uploaded datetime
+  uploadeddatetime: any;
+  uploadtime: any;
+  currentDate: Date = new Date();
+
+  getuploadeddatettime() {
+    this.uploadtime = this.currentDate;
+  }
+
+  //get uploaded images
+  uploadediamges: any;
+  bucketName: any;
+  images: any;
+  searchWords: any;
+
+  //* --------------------------  Public methods  --------------------------*//
+  cantegory_name: any;
+
+  //mat-select-students
+  get searchWord() {
+    return this.contact_list.filter((conversation: any) => {
+      return (
+        conversation.user_details.first_name
+          .toLowerCase()
+          .includes(this.searchWords.toLowerCase()) |
+        conversation.user_details.last_name
+          .toLowerCase()
+          .includes(this.searchWords.toLowerCase())
+      );
+    });
+  }
+  openedChange(opened: boolean) {
+    if (opened === true) {
+      this.searchWords = null;
+    }
+  }
+
+  replytype: any;
+  gallery_c_file_id: any;
+  onGetValue(event: any) {
+    let value = event.target.value;
+    this.replytype = value;
+  }
+  comment_id_get_id_first_reply: any;
+  tableData: any[] = [];
+  disablesavebtn: boolean = true;
+  selection = new SelectionModel<any>(true, []);
+
+  //* ------------------------------ Helper Function -----------------------*//
+  onNoClick(): void {
+    this.loginDialogRef.close(true);
+  }
+
+  addUserToGroup(userId: any) {
+    if (this.listofUserId.length == 0) {
+      this.listofUserId.push(userId.user_id);
+    } else {
+      const isExist = this.listofUserId.includes(userId.user_id);
+      if (isExist == true) {
+        let index = this.listofUserId.indexOf(userId.user_id);
+        this.listofUserId.splice(index, 1);
+      } else {
+        this.listofUserId.push(userId.user_id);
+      }
+    }
+  }
+  getCustomerProfileUrl(ceph_object_id: string) {
+    let profileUrl =
+      environment.ceph_URL +
+      this.country_code +
+      '-' +
+      this.customer_id +
+      '/' +
+      ceph_object_id;
+    return profileUrl;
+  }
+  imageUrll: any;
+  fileToUpload: any;
+  videoUrl: any;
+
+  // In your component class:
+
+  lastImageUrl: any = null;
+  lastVideoUrl: any = null;
+  lastFile: any = null;
+
+  showData = true;
+  notallowed: boolean = false;
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    const fileSize = file.size / 1024 / 1024; // File size in MB
+
+    if (fileSize > 50) {
+      this.notallowed = true;
+      event.target.value = ''; // Clear the input field
+    } else {
+      this.notallowed = false;
+      if (event.target.files.length > 0) {
+        const file = event.target.files[0];
+        if (file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            this.lastImageUrl = reader.result as string;
+            this.lastVideoUrl = null;
+            this.lastFile = file;
+          };
+          reader.readAsDataURL(file);
+        } else if (file.type.startsWith('video/')) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            this.lastVideoUrl = reader.result as string;
+            this.lastImageUrl = null;
+            this.lastFile = file;
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+    }
+  }
+  handleClick() {
+    this.renderer.setStyle(document.body, 'cursor', 'pointer');
+    // Perform other actions if needed
+  }
+
+  //ceph
+  // showvid:boolean=false;
+  getsizecomvideo() {
+    // this.showvid=true;
+    const dialogRef = this.dialog.open(GetlargeImageComponent, {
+      disableClose: false,
+      height: 'auto',
+      minWidth: '250px',
+      width: 'auto',
+    });
+  }
+
+  //Upload File
+  onUploadFileCephStorage() {
+    // let formData: FormData = new FormData();
+    // formData.append('attachments', this.getFileUpload);
+    // formData.append('bucket_name', this.bucketName);
+    // formData.append('file_name', 'test');
+    // formData.append('is_private', 'false');
+    // formData.append('uploaded_created_via_app_id', '32');
+    // formData.append('is_uploaded_created_via_customapp', 'false');
+
+
+    let photoFormData: any = new FormData();
+    photoFormData.append('is_uploaded_created_via_customapp', false);
+    photoFormData.append('app_id', 21);
+    photoFormData.append('app_type', 0);
+    photoFormData.append('file_name', 'unsigned_form');
+    photoFormData.append('attachments', this.getFileUpload);
+    photoFormData.append('bucket_name', this.bucketName);
+    this._cephService.createFile(photoFormData).subscribe((res) => {
+      console.log(res,'ress');
+
+
+      this.gallery_c_file_id = res.data[0].file_cloud_storage_path;
+      if (res?.statusCode == 200) {
+        this._snackBarService.success(res.message);
+      }
+
+      let body: any = {
+        country_code: this.country_code,
+        customer_id: this.customer_id,
+        gallery_file_description: this.replytype,
+        gallery_file_uploaded_by_user_id: this.user_id,
+        gallery_file_upload_datetime: this.uploadtime,
+        gallery_cloud_file_id: this.gallery_c_file_id,
+        tagged_user_id: this.checkeduserid,
+        video_duration_in_sec: this.duration,
+        login_id: this.user_id,
+      };
+      this._apiservice.saveinsert(body).subscribe((res) => {
+        if (res.statusCode == 201) {
+          this._snackbar.success(res.message);
+          this.onNoClick();
+        } else {
+          this._snackbar.error(res.message);
+        }
+      });
+      this.loginDialogRef.close({ event: true, data: 'true' });
+    });
+  }
+
+  isVideoLoaded: any;
+  getFileUpload: any;
+  duration: any;
+  time: any;
+  disablefileuploadimage: boolean = true;
+  public browseVideo(event: any) {
+    this.time = event.timeStamp;
+    const timeStampInSeconds = event.timeStamp / 1000;
+    const file = event.target.files[0];
+    const video = document.createElement('video');
+    video.preload = 'metadata';
+    video.onloadedmetadata = () => {
+      window.URL.revokeObjectURL(video.src);
+      this.duration = video.duration.toFixed(2);
+    };
+    video.src = URL.createObjectURL(file);
+
+    if (event.target.files.length > 0) {
+      this.disablefileuploadimage = false;
+    } else {
+      this.disablefileuploadimage = true;
+    }
+
+    this.isVideoLoaded = true;
+    let e = event.target as HTMLInputElement;
+    if (e.files && e.files[0]) {
+      this.getFileUpload = e.files[0];
+    }
+  }
+
+  //Get File
+  imageUrl: any;
+  getCephUploadedFiles(bucket_name: string, key: string) {
+    // this.loader.open();
+    this._cephService.getFile(bucket_name, key).subscribe(
+      async (res) => {
+        this.imageUrl = await this.arrayBufferToBase64(res);
+      },
+      (err) => {
+        this._snackBarService.error(err.error.text);
+      }
+    );
+  }
+
+  arrayBufferToBase64(buffer: ArrayBuffer) {
+    var blob = new Blob([buffer], { type: 'blob' });
+    var reader = new FileReader();
+    let base64 = new Promise((reslove: any, reject: any) => {
+      reader.onload = (evt: any) => {
+        // let dataurl = evt.target.result;
+        reslove(evt.target.result);
+      };
+    });
+    reader.readAsDataURL(blob);
+    return base64;
+  }
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.contact_list.length;
+    return numSelected === numRows;
+  }
+
+  checkeduserid: any;
+  selectAllChecked: boolean = false;
+  masterToggle() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+    } else {
+      this.contact_list.forEach((row: any) => this.selection.select(row));
+    }
+  }
+
+  changedata(checked: any) {
+    // let use_ids:any
+    this.checkeduserid = this.selection.selected.map(
+      (item) => item.user_details.user_id
+    );
+    console.log(this.checkeduserid.length);
+
+    if (this.checkeduserid.length > 0) {
+      this.disablesavebtn = false;
+    } else {
+      this.disablesavebtn = true;
+    }
+  }
+
+  //! -------------------------------  End  --------------------------------!//
+}

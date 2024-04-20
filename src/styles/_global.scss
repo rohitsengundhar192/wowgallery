@@ -1,0 +1,258 @@
+// src/styles/_global.scss
+
+@import "variables", "mixin";
+
+// * Heading
+.primary-heading {
+  @include heading($color: $large-text-color, $weight: 600, $size: 12px);
+}
+
+.secondary-heading {
+  @include heading($color: $medium-text-color, $weight: 600, $size: 12px);
+}
+
+.red-heading {
+  @include heading($color: $red-text-color, $weight: 600, $size: 12px);
+}
+
+.red-heading-text {
+  @include heading($color: $red-text-color, $weight: 600, $size: 20px);
+}
+.secondary-heading-text {
+  @include heading($color: $medium-text-color, $weight: 600, $size: 20px);
+}
+.primary-heading-text {
+  @include heading($color: $large-text-color, $weight: 600, $size: 20px);
+}
+.normal-heading {
+  @include heading(
+    $color: $small-heading-font-color,
+    $weight: 590,
+    $size: 12px
+  );
+}
+.para-bold {
+  @include heading(
+    $color: $small-heading-font-color,
+    $weight: 600,
+    $size: 12px
+  );
+}
+.para-bold_size {
+  @include heading(
+    $color: $small-heading-font-color,
+    $weight: 600,
+    $size: 14px
+  );
+}
+.secondary-color{
+  @include heading($color:$medium-text-color)
+}
+
+// * Button
+.primary-button {
+  @include app-button($primary-color, $radius: 20px, $line-height: 28px);
+}
+.red-button {
+  @include app-button($red-text-color, $radius: 20px, $line-height: 28px);
+}
+
+
+
+.dark-theme .primary-button {
+  @include app-button($primary-color, $radius: 20px, $line-height: 28px);
+}
+
+.secondary-button {
+  @include app-button($secondary-color, $radius: 10px);
+}
+
+// * Layout
+.primary-layout-content {
+  @include view-height($header-height: 0px, $footer-height: 20px);
+}
+
+.secondary-layout-content {
+  @include view-height($header-height: 37px, $footer-height: 20px);
+}
+
+// * Shadow
+.box-shadow {
+  background: #ffffff;
+  box-shadow: 0 8px 12px rgba(47, 60, 74, 0.04),
+    0 2px 6px rgba(47, 60, 74, 0.08) !important;
+  border-radius: 5px;
+}
+
+// * spacer
+.spacer {
+  @apply flex-1;
+}
+
+// * Toolbar
+.header-toolbar {
+  #mat-toolbar {
+    height: 37px;
+    border-radius: 0px;
+    padding: 0px 6px 0px 6px;
+  }
+}
+
+.footer-toolbar {
+  #mat-toolbar {
+    height: 20px;
+    background: unset;
+    border-radius: 0px;
+    padding: 0px 6px 0px 6px;
+  }
+}
+
+.secondary-header-toolbar {
+  #mat-toolbar {
+    height: 37px;
+    background-color: $secondary-color;
+    // background-color: red;
+    // background-color:#0000001f ;
+    border-radius: 0;
+    padding: 0;
+  }
+}
+
+// * Navigation back icon
+.back-icon {
+  font-weight: 550;
+  font-size: 30px;
+  line-height: 25px;
+}
+
+// * input type="number" hide up-down arrows
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+// * Custom scrollbar
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px $secondary-color;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $secondary-color;
+  border-radius: 10px;
+}
+
+.dark-theme a {
+  color: white;
+}
+
+.dialog-responsive {
+  width: 95%;
+  height: 80%;
+}
+
+@media only screen and (max-width: 760px) {
+  .dialog-responsive {
+    width: 100%;
+    height: 80%;
+  }
+}
+
+.audit-trail-dialog {
+  .mat-dialog-container {
+    padding: 15px;
+  }
+}
+
+.bg-white-black {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+.dark-theme .bg-white-black {
+  background-color: #303030;
+}
+
+.export-btn {
+  @apply cursor-pointer text-sm font-medium underline;
+  color: $large-text-color;
+}
+
+
+.mat-dialog-container {
+  padding: 0px !important;
+}
+
+// ngx-mat-datetime-picker
+.mat-calendar-arrow {
+  border: none !important;
+  width: 10px !important;
+  height: 5px !important;
+}
+
+ngx-mat-calendar-header .mat-calendar-arrow {
+  border-left: 5px solid transparent !important;
+  border-right: 5px solid transparent !important;
+  border-top-width: 5px !important;
+  border-top-style: solid !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+ngx-mat-month-view .mat-calendar-body-cell {
+  position: relative !important;
+}
+
+// snackbar
+snack-bar-container.success {
+  background-color: green;
+  color: white;
+}
+
+snack-bar-container.error {
+  background-color: red;
+  color: white;
+}
+
+.warn-heading-medium {
+  @include heading(
+    $color: $warn-heading-font-color,
+    $weight: $medium-font-weight,
+    $size: $medium-font-size
+  );
+}
+
+.warn-heading-small {
+  @include heading(
+    $color: $warn-heading-font-color,
+    $weight: $small-font-weight,
+    $size: $small-font-size
+  );
+}
+
+//  mat-tree-node
+
+.mat-tree-node {
+  min-height: 40px;
+  font-size: $small-font-size;
+}
+
+.font-small-in-size {
+  font-size: $small-font-size;
+  // font-weight: $small-font-weight;
+}
+
+.font-medium-in-size {
+  font-size: $medium-font-size;
+  // font-weight: $medium-font-weight;
+}

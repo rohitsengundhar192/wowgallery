@@ -1,0 +1,36 @@
+.bgc {
+  background-color: #3366ff;
+}
+.mat-form-field-wrapper {
+  padding-bottom: -0.65625em;
+}
+
+@import "global";
+
+.component--dialog-box__custom-toolbar {
+  &.mat-toolbar {
+    height: 27px;
+    background-color: #3366ff;
+    padding: 0 0 0 12px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 550;
+    .example-spacer {
+      flex: 1 1 auto;
+    }
+  }
+}
+
+// noUiSlider
+noUi-target{
+  width: 334px !important;
+  margin-top: 25px !important;
+}
+
+// .small-textarea {
+//   width: 61px;
+//   height: 15px;
+//   border: 1px solid #ccc;
+//   border-radius: 4px;
+//   resize: none;
+// }

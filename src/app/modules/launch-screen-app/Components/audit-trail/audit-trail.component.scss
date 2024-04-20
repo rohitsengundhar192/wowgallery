@@ -1,0 +1,130 @@
+@import "variables";
+
+.table-responsive .mat-table {
+  overflow-x: scroll;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-column-number,
+.mat-column-state {
+  max-width: 64px;
+}
+
+.mat-column-created {
+  max-width: 124px;
+}
+
+.mat-column-entry_description {
+  border-right: 1px solid $secondary-color;
+  text-align: center;
+}
+.mat-column-entry_type {
+  border-right: 1px solid $secondary-color;
+  text-align: center;
+}
+.mat-column-entry_date_time {
+  border-right: 1px solid $secondary-color;
+  text-align: center;
+}
+.mat-column-entry_by_user_name {
+  border-right: 1px solid $secondary-color;
+  text-align: center !important;
+}
+
+.mat-column-radio_btn {
+  border-right: 1px solid $secondary-color;
+  text-align: center;
+}
+
+.mat-paginator {
+  background: unset;
+}
+
+.mat-toolbar-row,
+.mat-toolbar-single-row {
+  display: flex;
+  box-sizing: border-box;
+  padding: 0 0px;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.mat-toolbar-row,
+.mat-toolbar-single-row {
+  height: 37px;
+}
+
+.example-container {
+  display: flex;
+  width: fit-content;
+  flex-direction: column;
+  margin: 5px;
+}
+
+.mat-table {
+  max-height: 253px;
+  > .mat-header-row,
+  > .mat-row {
+    display: table-row;
+    padding: 0;
+    border: none;
+
+    > .mat-header-cell,
+    > .mat-cell {
+      display: table-cell;
+      vertical-align: middle;
+
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    }
+  }
+}
+.highlighted {
+  background: #42a948;
+}
+.app-hint {
+  background-color: #ffff00;
+  color: #000000;
+  padding: 3px;
+  font-weight: 550;
+  font-size: 12px;
+}
+
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type {
+  padding-left: 10px;
+}
+
+th.mat-header-cell:last-of-type,
+td.mat-cell:last-of-type,
+td.mat-footer-cell:last-of-type {
+  padding-right: 5px;
+}
+
+.entry_by_user_name,
+th,
+td,
+img {
+  @apply h-10 w-10  mt-1 mr-3 mb-1;
+}
+
+:host ::ng-deep .mat-dialog-container {
+  min-height: unset !important;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #141313;
+}

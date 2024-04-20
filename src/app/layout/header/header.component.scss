@@ -1,0 +1,139 @@
+@import "global";
+@import "variables";
+// * Responsive
+
+.logo-box-shadow {
+  -webkit-box-shadow: 13px 17px 15px 10px rgba(0, 0, 0, 0.31);
+  -moz-box-shadow: 13px 17px 15px 10px rgba(0, 0, 0, 0.31);
+  box-shadow: 13px 17px 15px 10px rgba(0, 0, 0, 0.31);
+}
+
+.mobile-view {
+  color: $large-heading-font-color;
+  @apply gt-md:hidden lt-lg:flex w-7 h-full cursor-pointer;
+  @extend .hv-center;
+}
+
+.desktop-view {
+  @apply gt-md:flex lt-lg:hidden;
+}
+
+// .mobile-view {
+//   @apply gt-md:hidden lt-lg:flex w-7 h-full cursor-pointer text-[#{"" + $large-heading-font-color}];
+//   @extend .hv-center;
+// }
+
+// .desktop-view {
+//   @apply gt-md:flex lt-lg:hidden;
+// }
+
+.hv-center {
+  @apply justify-center items-center;
+}
+
+.navigation {
+  color: $large-heading-font-color;
+  @apply h-full flex  cursor-pointer;
+  @extend .hv-center;
+}
+
+.app-logo {
+  @apply h-full w-[60px]  relative cursor-pointer flex-shrink-0;
+}
+
+.logo-shadow {
+  box-shadow: 0px 0px 20px -10px rgb(0 0 0 / 10%),
+    2px 3px 6px 2px rgb(0 0 0 / 38%), 7px 0px 14px -2px rgb(0 0 0 / 40%);
+}
+
+.profile-shadow {
+  box-shadow: 0px 0px 20px -10px rgb(0 0 0 / 10%),
+    2px 3px 6px 2px rgb(0 0 0 / 30%), 7px 0px 14px -2px rgb(0 0 0 / 40%);
+}
+
+.header-logo-image {
+  @apply absolute top-0 left-[15px] z-40 w-[45px] h-[45px] rounded-md;
+}
+
+.app-name {
+  color: $large-heading-font-color;
+  font-size: $medium-font-size;
+  @apply items-center w-full pl-[15px] overflow-hidden text-ellipsis gt-sm:text-[#{$large-font-size}];
+}
+
+.notification-icon {
+  color: $large-heading-font-color;
+  @apply w-[40px] h-full cursor-pointer text-[23px] mr-3;
+
+  @extend .hv-center;
+  @extend .desktop-view;
+  @extend .notification-badge;
+}
+
+.notification-badge {
+  .mat-badge-small.mat-badge-overlap.mat-badge-after {
+    .mat-badge-content {
+      right: -9px;
+      top: -5px;
+    }
+  }
+}
+
+.share-icon {
+  color: $large-heading-font-color;
+  @apply w-[35px] h-full cursor-pointer;
+
+  @extend .desktop-view;
+  @extend .hv-center;
+}
+
+.theme-icon {
+  color: $large-heading-font-color;
+  @apply w-[35px] h-full cursor-pointer;
+
+  @extend .desktop-view;
+  @extend .hv-center;
+}
+
+.download-icon {
+  color: $large-heading-font-color;
+  font-size: $large-font-size;
+  @apply h-full px-1 cursor-pointer;
+  @extend .desktop-view;
+  @extend .hv-center;
+}
+
+.user-profile {
+  @apply h-full w-12 relative cursor-pointer flex-shrink-0;
+  @extend .desktop-view;
+}
+
+.profile-image {
+  @apply absolute top-0 left-0 z-40 w-[45px] h-[45px] rounded-md;
+}
+
+.loader-container {
+  position: fixed;
+  width: 100%;
+  z-index: 2;
+}
+
+.header-online {
+  background: $primary-color;
+}
+
+.header-offline {
+  background: $black-variant-one;
+}
+
+// .menu-full-height {
+//   #mat-menu-content:not(:empty) {
+//     max-height: fit-content;
+//   }
+// }
+
+// ::ng-deep .mat-menu-content:not(:empty) {
+//   height: fit-content;
+// }
+
+

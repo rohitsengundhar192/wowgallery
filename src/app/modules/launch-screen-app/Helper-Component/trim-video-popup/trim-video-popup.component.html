@@ -1,0 +1,85 @@
+<mat-toolbar class="component--dialog-box__custom-toolbar">
+  <span class="font-small-in-size">Trim Video</span>
+  <span class="example-spacer"></span>
+  <button mat-icon-button class="flex items-center justify-center">
+    <mat-icon (click)="onNoClick()">close</mat-icon>
+  </button>
+</mat-toolbar>
+
+<div class="p-2 space-y-2">
+  <div class="flex gap-2 items-center xs:grid">
+    <!-- Button -->
+    <!-- <div>
+      <button
+        type="submit"
+        class="primary-button xs:text-[12px]"
+        mat-raised-button
+        (click)="onUploadFileCephStorage()"
+
+        [disabled]="disablesavebtn"
+      >
+        SAVE
+      </button>
+    </div> -->
+
+    <!--Simple Text-->
+    <div class="text-justify">
+      <span class="red-heading"
+        >Trimmed video will be saved as a separate file. The original video file
+        will be retained.</span
+      >
+    </div>
+  </div>
+
+  <!--Big Image-->
+
+  <!--Image view-->
+  <div class="w-full flex justify-center">
+    <video
+      id="video_editor"
+      controls
+      class="w-full h-[300px] object-cover"
+    ></video>
+
+    <div>
+      <!-- <video src="blob:http://localhost:4200/b640c184-a8ab-4a0b-beff-526583eb697c"></video> -->
+    </div>
+  </div>
+  <!--STart time and endtime-->
+  <div class="flex mt-3">
+    <div class=""></div>
+    <div class="flex-1"></div>
+    <div class=""></div>
+  </div>
+
+  <!-- <div class="space-y-4"> -->
+  <div class="items-center space-y-3">
+    <!-- Slider -->
+    <div
+      id="noUiSlider"
+      class=""
+      style="margin: auto; margin-top: -9px; margin-left: 0px; width: 97%"
+    ></div>
+    <!-- </div> -->
+
+    <!--TExt area-->
+    <div class="w-full flex justify-center">
+      <textarea class="h-[22px] w-[48px] para-bold" readonly>{{ totaltime }}</textarea>
+
+    </div>
+
+    <!--Button-->
+    <div class="w-full flex justify-center">
+      <button
+        type="submit"
+        (click)="onButtonClickd()"
+        class="red-button xs:text-[12px]"
+        mat-raised-button
+        (click)="onButtonClick(1)"
+        [disabled]="buttonDisabled"
+      >
+        Trim
+      </button>
+    </div>
+  </div>
+</div>
